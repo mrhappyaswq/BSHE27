@@ -1,12 +1,9 @@
 """Host-side checks for the MicroPython heartbeat parser."""
 
-import sys
 import unittest
-from pathlib import Path
 
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "device"))
-from mavlink_rx import HeartbeatParser  # noqa: E402
+from banshee.mavlink.heartbeat import HeartbeatParser  # noqa: E402
 
 
 def crc_step(crc, value):

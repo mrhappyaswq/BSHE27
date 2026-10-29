@@ -10,6 +10,25 @@
       "label": "$(terminal) ESP32 Monitor",
       "task": "ESP32: Monitor",
       "tooltip": "Open the MicroPython serial monitor"
+    },
+    {
+      "label": "$(pulse) Check Pixhawk",
+      "task": "ESP32: Telemetry check",
+      "tooltip": "Check UART and telemetry without arming or movement"
     }
-  ]
+  ],
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/device"
+  ],
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    ".venv": true,
+    ".pytest_cache": true
+  },
+  "search.exclude": {
+    "local/**": true,
+    ".venv/**": true,
+    "**/__pycache__/**": true
+  }
 }

@@ -1,0 +1,303 @@
+BANSHEE AVIONICS - MicroPython conversions
+
+IMPORTANT
+MicroPython cannot run DroneKit, OpenCV, NumPy, or desktop serial port discovery. These conversions expect a board-side helper named mavlink_minimal.py exposing MAVLinkVehicle, Location, and detect_pixhawk_uart(). Connect the helper to the Pixhawk UART. ArUco routines expose a marker_provider() hook because marker detection must be supplied by a camera or vision co-processor.
+
+==================== aruco_landing.py ====================
+import time
+from mavlink_minimal import MAVLinkVehicle, detect_pixhawk_uart
+TARGET_ALTITUDE = 1.5
+LANDING_ALTITUDE = 0.2
+KP = 0.002
+
+def connect_to_pixhawk():
+    uart = detect_pixhawk_uart()
+    if uart is None:
+        print('No Pixhawk UART found')
+        return None
+    try:
+        vehicle = MAVLinkVehicle(uart, baudrate=115200)
+        print('Connected to Pixhawk')
+        return vehicle
+    except Exception as exc:
+        print('Connection failed:', exc)
+        return None
+
+def arm_and_takeoff(vehicle, target_altitude):
+    print('Arming motors')
+    while not vehicle.is_armable():
+        time.sleep(1)
+    vehicle.set_mode('GUIDED')
+    vehicle.arm()
+    while not vehicle.armed():
+        time.sleep(1)
+    vehicle.takeoff(target_altitude)
+    while True:
+        alt = vehicle.altitude()
+        print('Altitude: %.2f m' % alt)
+        if alt >= target_altitude * 0.95:
+            return
+        time.sleep(1)
+
+def marker_provider():
+    return None
+
+def land_on_aruco(vehicle):
+    print('Searching for ArUco marker')
+    while True:
+        marker = marker_provider()
+        if marker is not None:
+            cx, cy, width, height = marker
+            dx = cx - width // 2
+            dy = cy - height // 2
+            vehicle.send_body_velocity(-dy * KP, -dx * KP, -0.05, 0.1)
+            print('Centering dx=%d dy=%d alt=%.2f' % (dx, dy, vehicle.altitude()))
+            if vehicle.altitude() <= LANDING_ALTITUDE:
+                vehicle.set_mode('LAND')
+                return
+        time.sleep_ms(50)
+
+vehicle = connect_to_pixhawk()
+if vehicle is not None:
+    try:
+        arm_and_takeoff(vehicle, TARGET_ALTITUDE)
+        time.sleep(3)
+        land_on_aruco(vehicle)
+        while vehicle.armed():
+            time.sleep(1)
+    finally:
+        vehicle.close()
+
+==================== aruco_moveGPS.py ====================
+import time
+import math
+from mavlink_minimal import MAVLinkVehicle, Location, detect_pixhawk_uart
+TARGET_ALTITUDE = 1.5
+
+def connect_to_pixhawk():
+    uart = detect_pixhawk_uart()
+    if uart is None:
+        return None
+    return MAVLinkVehicle(uart, baudrate=115200)
+
+def arm_and_takeoff(vehicle, altitude):
+    while not vehicle.is_armable():
+        time.sleep(1)
+    vehicle.set_mode('GUIDED')
+    vehicle.arm()
+    while not vehicle.armed():
+        time.sleep(1)
+    vehicle.takeoff(altitude)
+    while vehicle.altitude() < altitude * 0.95:
+        print('Altitude: %.2f m' % vehicle.altitude())
+        time.sleep(1)
+
+def get_location_metres(origin, north, east, altitude):
+    radius = 6378137.0
+    lat = origin.lat + (north / radius) * (180 / math.pi)
+    lon = origin.lon + (east / (radius * math.cos(math.radians(origin.lat)))) * (180 / math.pi)
+    return Location(lat, lon, altitude)
+
+def marker_provider():
+    return None
+
+def land_on_aruco(vehicle):
+    while True:
+        marker = marker_provider()
+        if marker is not None:
+            cx, cy, width, height = marker
+            vehicle.send_body_velocity(-(cy - height // 2) * 0.002, -(cx - width // 2) * 0.002, -0.05, 0.1)
+        if vehicle.altitude() <= 0.2:
+            vehicle.set_mode('LAND')
+            return
+        time.sleep_ms(100)
+
+vehicle = connect_to_pixhawk()
+if vehicle is not None:
+    try:
+        arm_and_takeoff(vehicle, TARGET_ALTITUDE)
+        home = vehicle.global_location()
+        vehicle.goto(get_location_metres(home, 3, 0, TARGET_ALTITUDE))
+        time.sleep(10)
+        vehicle.goto(get_location_metres(home, 0, 0, TARGET_ALTITUDE))
+        time.sleep(10)
+        land_on_aruco(vehicle)
+        while vehicle.armed():
+            time.sleep(1)
+    finally:
+        vehicle.close()
+
+==================== aruco_tracker.py ====================
+import time
+
+def marker_provider():
+    return ()
+
+def draw_marker(marker):
+    x, y, z = marker
+    print('Marker X=%.2f Y=%.2f Z=%.2f' % (x, y, z))
+
+while True:
+    for marker in marker_provider():
+        draw_marker(marker)
+    time.sleep_ms(50)
+
+==================== cricle.py ====================
+import time
+import math
+from mavlink_minimal import MAVLinkVehicle, Location
+vehicle = MAVLinkVehicle('UART1', baudrate=57600)
+
+def arm_and_takeoff(altitude):
+    while not vehicle.is_armable():
+        time.sleep(1)
+    vehicle.set_mode('GUIDED')
+    vehicle.arm()
+    while not vehicle.armed():
+        time.sleep(1)
+    vehicle.takeoff(altitude)
+    while vehicle.altitude() < altitude * 0.95:
+        print('Altitude: %.2f m' % vehicle.altitude())
+        time.sleep(1)
+
+def fly_circle(center, radius, altitude):
+    for index in range(36):
+        angle = index * 2 * math.pi / 36
+        dlat = radius / 6378137.0 * 180 / math.pi
+        dlon = dlat / math.cos(math.radians(center.lat))
+        point = Location(center.lat + dlat * math.cos(angle), center.lon + dlon * math.sin(angle), altitude)
+        vehicle.goto(point)
+        time.sleep_ms(1500)
+
+try:
+    arm_and_takeoff(10)
+    home = vehicle.global_location()
+    fly_circle(home, 20, 10)
+    vehicle.goto(Location(home.lat, home.lon, 10))
+    time.sleep(5)
+    vehicle.set_mode('LAND')
+    while vehicle.armed():
+        time.sleep(2)
+finally:
+    vehicle.close()
+
+==================== hover.py ====================
+import time
+from mavlink_minimal import MAVLinkVehicle
+vehicle = MAVLinkVehicle('UART1', baudrate=57600)
+try:
+    vehicle.set_mode('GUIDED')
+    vehicle.arm()
+    while not vehicle.armed():
+        time.sleep(1)
+    vehicle.takeoff(2)
+    while vehicle.altitude() < 1.9:
+        print('Altitude: %.2f m' % vehicle.altitude())
+        time.sleep(1)
+    time.sleep(5)
+    vehicle.set_mode('LAND')
+    while vehicle.armed():
+        time.sleep(1)
+finally:
+    vehicle.close()
+
+==================== hoverGPS.py ====================
+import time
+from mavlink_minimal import MAVLinkVehicle, detect_pixhawk_uart
+uart = detect_pixhawk_uart()
+if uart is None:
+    raise RuntimeError('Pixhawk UART not found')
+vehicle = MAVLinkVehicle(uart, baudrate=57600)
+try:
+    while not vehicle.is_armable():
+        time.sleep(1)
+    vehicle.set_mode('GUIDED')
+    vehicle.arm()
+    while not vehicle.armed():
+        time.sleep(1)
+    vehicle.takeoff(10)
+    while vehicle.altitude() < 9.5:
+        print('Altitude: %.2f m' % vehicle.altitude())
+        time.sleep(1)
+    time.sleep(10)
+    vehicle.set_mode('LAND')
+    while vehicle.armed():
+        time.sleep(1)
+finally:
+    vehicle.close()
+
+==================== moveGPS.py ====================
+import time
+import math
+from mavlink_minimal import MAVLinkVehicle, Location, detect_pixhawk_uart
+
+def get_location_metres(origin, north, east, altitude):
+    radius = 6378137.0
+    lat = origin.lat + north / radius * 180 / math.pi
+    lon = origin.lon + east / (radius * math.cos(math.radians(origin.lat))) * 180 / math.pi
+    return Location(lat, lon, altitude)
+
+uart = detect_pixhawk_uart()
+if uart is None:
+    raise RuntimeError('Pixhawk UART not found')
+vehicle = MAVLinkVehicle(uart, baudrate=115200)
+try:
+    while not vehicle.is_armable():
+        time.sleep(1)
+    vehicle.set_mode('GUIDED')
+    vehicle.arm()
+    while not vehicle.armed():
+        time.sleep(1)
+    vehicle.takeoff(1.5)
+    while vehicle.altitude() < 1.425:
+        time.sleep(1)
+    home = vehicle.global_location()
+    vehicle.goto(get_location_metres(home, 3, 0, 1.5))
+    time.sleep(10)
+    vehicle.goto(get_location_metres(home, 0, 0, 1.5))
+    time.sleep(10)
+    vehicle.set_mode('LAND')
+    while vehicle.armed():
+        time.sleep(1)
+finally:
+    vehicle.close()
+
+==================== readme.md ====================
+# BANSHEE AVIONICS - MicroPython port
+
+The original branch targets desktop Python and DroneKit. The converted files target a MicroPython companion board and use mavlink_minimal.py for UART/MAVLink communication.
+
+Required board-side pieces:
+1. A MicroPython board with a UART connected to the Pixhawk TELEM port.
+2. mavlink_minimal.py implementing MAVLinkVehicle, Location, and detect_pixhawk_uart().
+3. A camera or external vision processor for the ArUco hooks.
+4. Bench testing, prop-off testing, and failsafe configuration before flight.
+
+The original cricle.py filename is retained for compatibility with the repository.
+
+
+==================== ESP32 HARDWARE TARGET ====================
+This port targets an ESP32 or ESP32-S3 running MicroPython, not a Raspberry Pi.
+
+UART example (adjust pins for your board and wiring):
+from machine import UART, Pin
+uart = UART(2, baudrate=115200, tx=Pin(17), rx=Pin(16))
+vehicle = MAVLinkVehicle(uart)
+
+Connect ESP32 TX to Pixhawk RX, ESP32 RX to Pixhawk TX, and connect grounds. Do not connect 5 V logic directly; verify the Pixhawk TELEM voltage levels and use a level shifter if required. Power the ESP32 separately or from a properly regulated 5 V supply.
+
+ESP32 constraints:
+- Replace Raspberry Pi serial/device detection with explicit machine.UART configuration.
+- DroneKit, OpenCV, NumPy, and desktop serial.tools.list_ports are not available in MicroPython.
+- Use a lightweight MAVLink helper that supports heartbeat, arm/disarm, mode changes, takeoff, landing, GPS position, and guided movement.
+- Standard ESP32 boards cannot practically run the original OpenCV ArUco pipeline. Use an ESP32-S3 camera implementation, an external vision processor, or send marker coordinates to marker_provider().
+- Test with props removed, verify failsafes, and confirm UART baud/protocol before flight.
+
+Example ESP32-specific connection replacement:
+from machine import UART, Pin
+from mavlink_minimal import MAVLinkVehicle
+
+pixhawk_uart = UART(2, baudrate=115200, tx=Pin(17), rx=Pin(16))
+vehicle = MAVLinkVehicle(pixhawk_uart)
+
+

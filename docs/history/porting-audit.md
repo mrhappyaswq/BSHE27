@@ -1,7 +1,11 @@
 # Audit of the two original branches
 
+The desktop-source findings below still apply to the preserved samples.
+The newer MicroPython conversion has now been integrated separately in
+`device/`; see [its setup guide](../missions.md).
+
 Neither `Michael` nor `precision_landing` is a MicroPython ESP32 project.
-Their `.py` files in `samples/` use CPython packages and operating-system
+Their `.py` files in `reference/desktop/` use CPython packages and operating-system
 services intended for a PC or Raspberry Pi. They are examples to review, not
 scripts to flash to the board.
 
@@ -19,10 +23,12 @@ scripts to flash to the board.
 `precision_landing.py` sends MAVLink `LANDING_TARGET` using OpenCV detection
 and camera calibration. An ESP32 could relay or generate a chosen MAVLink
 message after another device supplies validated target coordinates, but the
-current camera detector and pose estimation cannot be copied to this WROOM
-board. The ESP32 code in `device/` currently only reads HEARTBEAT packets and
-checks their frame CRC. It does not authenticate MAVLink 2 signatures or
-implement precision landing.
+camera detector and pose estimation cannot be copied to this WROOM board.
+The newer MicroPython implementations in `device/` add a minimal MAVLink
+client and marker-provider-based guided landing; they do not implement
+the original OpenCV detector or the LANDING_TARGET precision-landing
+pipeline. The passive monitor consumes signatures without authenticating
+them, while the new control helper rejects signed MAVLink telemetry.
 
 Existing source issues worth fixing **on the original CPython side** before a
 flight test:

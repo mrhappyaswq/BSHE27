@@ -1,0 +1,2 @@
+# Optional desktop protocol interoperability tests. Never upload to the ESP32.
+pymavlink==2.4.50
