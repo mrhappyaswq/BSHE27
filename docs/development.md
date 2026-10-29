@@ -1,6 +1,6 @@
 # Development and tests
 
-Run from the BM27 Banshee project root:
+Run from the BSHE27 project root:
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -t . -v

@@ -1,6 +1,6 @@
 # Setup and upload
 
-Open the project root in VS Code, or open `BM27 Banshee.code-workspace`.
+Open the project root in VS Code, or open `BSHE27.code-workspace`.
 
 ## Install the Windows tools
 

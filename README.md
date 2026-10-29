@@ -1,4 +1,4 @@
-# BM27 Banshee
+# BSHE27
 
 ESP32 MicroPython companion code for a Pixhawk running ArduCopter.
 

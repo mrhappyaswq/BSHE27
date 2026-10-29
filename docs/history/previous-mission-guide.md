@@ -1,7 +1,7 @@
 # BANSHEE AVIONICS — ESP32 MicroPython port
 
 The seven missions from the supplied MicroPython conversion are integrated
-in BM27 Banshee's `device/` directory. The existing receive-only boot
+in BSHE27's `device/` directory. The existing receive-only boot
 monitor and original desktop samples are preserved. The supplied source
 is retained in `docs/pasted-micropython-source.txt`.
 
@@ -63,7 +63,7 @@ the `SYS_STATUS` prearm-check bit to be present, enabled and healthy, plus a
 STANDBY heartbeat; GPS missions also require a fresh 3D fix/global position.
 Autopilot arming checks remain authoritative and are never bypassed.
 
-## Upload and run in the open BM27 Banshee project
+## Upload and run in the open BSHE27 project
 
 Use **Upload ESP32** in the VS Code status bar, or **Ctrl+Shift+B**. The task
 uploads all runtime modules from `device/`, including the existing `main.py`
@@ -75,7 +75,7 @@ connection check. It transmits a heartbeat and stream request, but never arms,
 changes mode or sends movement commands. Unlike the passive boot monitor, it
 requires both UART directions to work.
 
-From the BM27 Banshee root, with your board's port substituted for COM4:
+From the BSHE27 root, with your board's port substituted for COM4:
 
 ```powershell
 .\.venv\Scripts\python.exe -m mpremote connect list
