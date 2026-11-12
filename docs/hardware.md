@@ -32,3 +32,7 @@ remain authoritative. Configure its link-loss failsafes before flight.
 
 Camera orientation, gains, descent limits and timeouts also live in
 `device/config.py`. See [camera integration](missions.md#camera-integration).
+
+The implemented [XIAO QR camera](xiao-qr-camera.md) uses WROOM UART2 on
+TX17/RX16 at 115200 baud, separately from UART1's FC link. Its matched Sense
+camera runs on a second ESP32-S3 board with its own Arduino firmware.

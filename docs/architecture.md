@@ -29,6 +29,12 @@ flowchart LR
 - `banshee/flight.py` coordinates the mission lifecycle and bounded waits.
 - `banshee/vision.py` validates camera-provider output; it does not detect
   markers. `banshee/compat.py` isolates timing differences for desktop tests.
+- `banshee/camera.py` connects a XIAO ESP32-S3 Sense vision processor over a
+  second UART. Requests and replies have CRCs and request IDs; freshness is
+  measured from request creation. `missions/qr_landing.py` uses canonical
+  QR corners to center and align heading before descending. The XIAO's
+  separate `firmware/xiao_qr_camera/` Arduino project performs real QR decoding
+  with quirc and optional bench photo storage. Boot behavior remains passive.
 - `missions/` contains flight entry points. `diagnostics/` contains inspection
   tools without flight control. Absolute package imports work from the board
   filesystem root.

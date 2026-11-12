@@ -172,6 +172,58 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(struct.unpack("<ii", packet[10:18]), (475000000, -1220000000))
         self.assertEqual(packet[-3], 3)
 
+    def test_body_velocity_preserves_autopilot_yaw_by_default(self):
+        vehicle = self.connect()
+        for kwargs in ({}, {"yaw_rate": None}):
+            with self.subTest(kwargs=kwargs):
+                vehicle.send_body_velocity(0, 0, 0, 0, **kwargs)
+                payload = vehicle.uart.writes[-1][6:-2]
+                self.assertEqual(struct.unpack("<H", payload[48:50])[0], 0x0DC7)
+                self.assertEqual(struct.unpack("<f", payload[44:48])[0], 0)
+
+    def test_body_velocity_enables_signed_yaw_rate_and_explicit_zero(self):
+        vehicle = self.connect()
+        for rate in (0.25, -0.25, 0):
+            with self.subTest(rate=rate):
+                vehicle.send_body_velocity(0.1, -0.2, 0.05, 0, yaw_rate=rate)
+                payload = vehicle.uart.writes[-1][6:-2]
+                self.assertEqual(struct.unpack("<H", payload[48:50])[0], 0x05C7)
+                self.assertEqual(payload[52], 8)  # MAV_FRAME_BODY_NED
+                self.assertAlmostEqual(struct.unpack("<f", payload[44:48])[0], rate)
+                self.assertEqual(struct.unpack("<f", payload[40:44])[0], 0)  # ignored yaw
+                for actual, expected in zip(struct.unpack("<fff", payload[16:28]),
+                                            (0.1, -0.2, 0.05)):
+                    self.assertAlmostEqual(actual, expected)
+
+    def test_invalid_yaw_rate_is_rejected_before_transmission(self):
+        vehicle = self.connect()
+        before = len(vehicle.uart.writes)
+        for rate in (float("nan"), float("inf"), -float("inf")):
+            with self.subTest(rate=rate):
+                with self.assertRaisesRegex(ValueError, "Yaw rate"):
+                    vehicle.send_body_velocity(0, 0, 0, 0, yaw_rate=rate)
+        self.assertEqual(len(vehicle.uart.writes), before)
+
+    def test_yaw_velocity_repeats_while_polling_telemetry(self):
+        vehicle = self.connect()
+        vehicle.send_body_velocity(0, 0, 0, 0.3, yaw_rate=0.25)
+        packets = [packet for packet in vehicle.uart.writes if packet[5] == 84]
+        self.assertGreaterEqual(len(packets), 4)
+        for packet in packets:
+            self.assertAlmostEqual(struct.unpack("<f", packet[50:54])[0], 0.25)
+
+    def test_yaw_velocity_still_rejects_invalid_velocity_and_duration(self):
+        vehicle = self.connect()
+        before = len(vehicle.uart.writes)
+        for values in ((float("nan"), 0, 0, 0), (0, float("inf"), 0, 0),
+                       (0, 0, -float("inf"), 0), (0, 0, 0, -0.1),
+                       (0, 0, 0, float("inf")), (0, 0, 0, float("nan"))):
+            with self.subTest(values=values):
+                with self.assertRaises(ValueError):
+                    vehicle.send_body_velocity(*values, yaw_rate=0)
+        self.assertEqual(len(vehicle.uart.writes), before)
+
+
     def test_long_sleep_keeps_sending_heartbeats(self):
         vehicle = self.connect()
         vehicle.sleep(2.1)

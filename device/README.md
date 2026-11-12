@@ -11,6 +11,7 @@ at the project root and tests in `tests/`.
 | `banshee/mavlink/vehicle.py` | Cooperative UART/MAVLink client |
 | `banshee/mavlink/heartbeat.py` | Receive-only heartbeat parser |
 | `banshee/vision.py` | Camera-provider registration and validation |
+| `banshee/camera.py` | Nonblocking UART client for the XIAO QR camera |
 | `banshee/compat.py` | MicroPython/desktop timing bridge |
 | `missions/` | Explicit flight entry points |
 | `diagnostics/` | Telemetry and marker inspection |
@@ -18,3 +19,7 @@ at the project root and tests in `tests/`.
 The [uploader](../tools/esp32.py) preserves these package paths on the board
 and installs `main.py` last. Each module uses absolute imports from the board
 root. See the [mission guide](../docs/missions.md) before running a mission.
+
+The XIAO camera uses separate [Arduino firmware](../firmware/xiao_qr_camera/README.md).
+Upload this Python tree to the existing WROOM-32S, following the
+[QR camera guide](../docs/xiao-qr-camera.md).

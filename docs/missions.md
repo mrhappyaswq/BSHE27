@@ -13,8 +13,10 @@ validation are required.
 | `missions/circle.py` | 10 m takeoff, 20 m radius circle, return, hold 5 s, land |
 | `missions/aruco_landing.py` | 1.5 m takeoff, hold 3 s, marker alignment and landing |
 | `missions/aruco_move_gps.py` | North/return flight followed by marker alignment and landing |
+| `missions/qr_landing.py` | XIAO camera preflight, 1.5 m takeoff, QR centering and heading alignment, descent, land |
 | `diagnostics/telemetry.py` | Five-second UART/telemetry check; no arming or movement |
 | `diagnostics/marker_tracker.py` | Print camera-provided marker poses; no flight commands |
+| `diagnostics/qr_camera.py` | Print real XIAO QR center/yaw for ten seconds; no flight commands |
 
 ```powershell
 .\.venv\Scripts\python.exe -m mpremote connect COM4 run device/missions/hover.py
@@ -26,6 +28,11 @@ hover is not an indoor/no-GPS implementation. Reset runs only the passive
 `main.py` monitor, and importing a mission does not start it.
 
 ## Camera integration
+
+For the implemented **XIAO ESP32-S3 Sense QR camera**, follow the
+[camera setup guide](xiao-qr-camera.md). Its separate `qr_landing` entry point
+creates the UART camera client automatically. It does not require registering
+the legacy ArUco provider below. QR and ArUco markers are different formats.
 
 The ESP32 code supplies a vision interface, not an OpenCV detector. A camera
 or external vision processor must supply fresh target coordinates. ArUco

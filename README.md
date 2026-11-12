@@ -37,6 +37,23 @@ Uploading resets into the passive monitor. Flight missions start only through
 an explicit run command. The UART defaults are UART1, TX33, RX32 and 57600 baud;
 verify them against your board. ArUco missions require a camera provider.
 
+## XIAO camera and QR landing
+
+This branch adds a **Seeed Studio XIAO ESP32-S3 Sense** as a wired camera
+processor alongside the existing WROOM-32S. It reads a landing QR onboard,
+reports its canonical corners, and supports saving bench photos to microSD.
+No Raspberry Pi, laptop, or Wi-Fi is needed during the QR mission.
+
+[`missions/qr_landing.py`](device/missions/qr_landing.py) centers the vehicle
+and aligns its heading before descent, using fresh captures of a QR whose
+payload is exactly `BSHE27-LAND`. It is an experimental GUIDED controller,
+not a flight-validated precision-landing product.
+
+**Start with [camera setup and bench checks](docs/xiao-qr-camera.md).**
+The XIAO runs separate [Arduino firmware](firmware/xiao_qr_camera/README.md);
+the existing WROOM retains the MicroPython flight code. Do not upload the
+WROOM configuration onto the XIAO.
+
 ## Guides
 
 - [Setup and upload](docs/setup.md)

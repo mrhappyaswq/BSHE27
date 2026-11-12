@@ -15,7 +15,7 @@ Or use **Terminal → Run Task → BANSHEE: Run host tests**. Test discovery use
 | `tests/reference/` | Generated pymavlink interoperability |
 | `tests/support/` | Independent wire frames, fake UART and simulated clock |
 
-The six reference tests require the optional desktop dependency:
+The seven reference tests require the optional desktop dependency:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
@@ -41,3 +41,16 @@ desktop dependencies in `device/`. Host tooling belongs in root `tools/`.
 Original desktop examples and unrelated reports are preserved separately.
 The preorganization snapshot and move manifest are under `local/archive/`.
 Git metadata and the existing virtual environment remain at the project root.
+
+## XIAO camera branch checks
+
+Build the separate `firmware/xiao_qr_camera/` PlatformIO project using its
+[instructions](../firmware/xiao_qr_camera/README.md). Its vendored quirc sources
+and pinned framework are separate from MicroPython deployment.
+
+The camera branch's host suite passes **84 tests**, including all seven
+generated-pymavlink interoperability checks when the pinned optional
+dependency is installed. These cover camera framing/CRC, image age and
+target validation, QR geometry, photo errors, heading control and simulated
+mission behavior. The deployment dry-run includes all new Python files.
+No SITL run or physical camera/flight test has been performed for this branch.

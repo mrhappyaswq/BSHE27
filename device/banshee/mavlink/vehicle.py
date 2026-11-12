@@ -313,17 +313,26 @@ class MAVLinkVehicle:
         )
         self._send(86, payload)
 
-    def send_body_velocity(self, forward, right, down, duration=0.1):
-        """Metres/second in body NED: forward, right, DOWN positive."""
+    def send_body_velocity(self, forward, right, down, duration=0.1, yaw_rate=None):
+        """Body NED velocity in m/s; optional yaw rate in radians/second.
+
+        Positive down points toward the ground. Positive yaw rate turns
+        clockwise viewed from above. None leaves yaw control to the autopilot;
+        zero explicitly commands no rotation while retaining velocity control.
+        """
         if not all(_finite(v) for v in (forward, right, down, duration)) or duration < 0:
             raise ValueError("Velocity and duration must be finite; duration cannot be negative")
+        if yaw_rate is not None and not _finite(yaw_rate):
+            raise ValueError("Yaw rate must be finite")
+        type_mask = 0x0DC7 if yaw_rate is None else 0x05C7
+        turn_rate = 0 if yaw_rate is None else yaw_rate
         started = ticks_ms()
         while True:
             self.poll()
             self._send(84, struct.pack(
                 "<IfffffffffffHBBB", ticks_ms() & 0xFFFFFFFF,
-                0, 0, 0, forward, right, down, 0, 0, 0, 0, 0,
-                0x0DC7, config.TARGET_SYSTEM, config.TARGET_COMPONENT, 8,
+                0, 0, 0, forward, right, down, 0, 0, 0, 0, turn_rate,
+                type_mask, config.TARGET_SYSTEM, config.TARGET_COMPONENT, 8,
             ))
             if ticks_diff(ticks_ms(), started) >= duration * 1000:
                 return

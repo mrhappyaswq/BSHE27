@@ -72,6 +72,21 @@ class ReferenceTests(unittest.TestCase):
         self.assertEqual(message.command, v20.MAV_CMD_NAV_TAKEOFF)
         self.assertEqual(message.param7, 1.5)
 
+    def test_reference_decodes_body_velocity_with_yaw_rate(self):
+        vehicle = self.connect()
+        for rate in (0.25, -0.25, 0):
+            with self.subTest(rate=rate):
+                vehicle.send_body_velocity(0.2, -0.3, 0.05, 0, yaw_rate=rate)
+                message = self.decode(vehicle.uart.writes[-1])
+                self.assertEqual(message.coordinate_frame, v20.MAV_FRAME_BODY_NED)
+                self.assertEqual(message.type_mask, 1479)
+                self.assertAlmostEqual(message.yaw_rate, rate)
+                self.assertTrue(message.type_mask & v20.POSITION_TARGET_TYPEMASK_YAW_IGNORE)
+                self.assertFalse(message.type_mask & v20.POSITION_TARGET_TYPEMASK_YAW_RATE_IGNORE)
+                for actual, expected in zip((message.vx, message.vy, message.vz),
+                                            (0.2, -0.3, 0.05)):
+                    self.assertAlmostEqual(actual, expected)
+
     def test_reference_heartbeat_and_telemetry_both_versions(self):
         for dialect in (v10, v20):
             with self.subTest(version=dialect.WIRE_PROTOCOL_VERSION):
