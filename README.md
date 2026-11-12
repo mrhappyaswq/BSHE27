@@ -39,6 +39,11 @@ verify them against your board. ArUco missions require a camera provider.
 
 ## XIAO camera and QR landing
 
+**For the GOOUUU ESP32-S3-CAM N16R8 in the Amazon manual, start with
+[live camera webpage setup](firmware/camera_web/README.md).** That separate
+bench firmware uses the manual's pin map and hosts a local Wi-Fi live feed.
+It also includes an optional XIAO Sense build profile.
+
 This branch adds a **Seeed Studio XIAO ESP32-S3 Sense** as a wired camera
 processor alongside the existing WROOM-32S. It reads a landing QR onboard,
 reports its canonical corners, and supports saving bench photos to microSD.
