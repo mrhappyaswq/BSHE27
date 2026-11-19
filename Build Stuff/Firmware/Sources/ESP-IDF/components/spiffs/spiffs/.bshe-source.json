@@ -1,0 +1,9 @@
+{
+  "name": "pellepl/spiffs",
+  "repository": "https://github.com/pellepl/spiffs",
+  "commit": "0dbb3f71c5f6fae3747a9d935372773762baf852",
+  "path": "Sources/ESP-IDF/components/spiffs/spiffs",
+  "archive_url": "https://codeload.github.com/pellepl/spiffs/tar.gz/0dbb3f71c5f6fae3747a9d935372773762baf852",
+  "archive_sha256": "ad2f6bd71024d8aa917b860fc0e1e242c10984219ed3460be09a375803a72517",
+  "regular_files": 36
+}

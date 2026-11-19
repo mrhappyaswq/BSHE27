@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp-nimble",
+  "repository": "https://github.com/espressif/esp-nimble",
+  "commit": "b45dcedcafb7888174c3567002c36b342ec0b723",
+  "path": "Sources/ESP-IDF/components/bt/host/nimble/nimble",
+  "archive_url": "https://codeload.github.com/espressif/esp-nimble/tar.gz/b45dcedcafb7888174c3567002c36b342ec0b723",
+  "archive_sha256": "4fc7767c4d93023488fa8e06dd52d6139df5f855d240417ae07a60023a4dd7e2",
+  "regular_files": 955
+}

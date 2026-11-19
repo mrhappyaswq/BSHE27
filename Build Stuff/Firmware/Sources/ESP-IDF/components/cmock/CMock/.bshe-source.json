@@ -1,0 +1,9 @@
+{
+  "name": "ThrowTheSwitch/CMock",
+  "repository": "https://github.com/ThrowTheSwitch/CMock",
+  "commit": "eeecc49ce8af123cf8ad40efdb9673e37b56230f",
+  "path": "Sources/ESP-IDF/components/cmock/CMock",
+  "archive_url": "https://codeload.github.com/ThrowTheSwitch/CMock/tar.gz/eeecc49ce8af123cf8ad40efdb9673e37b56230f",
+  "archive_sha256": "b39e8cb357d44630e80800990d731108ffc517ca01632a08d7cc9e3fcd5408f3",
+  "regular_files": 252
+}

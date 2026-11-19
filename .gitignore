@@ -11,3 +11,9 @@ secrets.py
 
 # Preserved machine-local reports, firmware, scratch files and backups
 local/
+
+# Archived C++ experiments and Python test caches
+**/.pio/
+
+# Machine-local files grouped under Build Stuff
+Build Stuff/local/

@@ -1,0 +1,9 @@
+{
+  "name": "espressif/openthread",
+  "repository": "https://github.com/espressif/openthread",
+  "commit": "b945928d722177cd9caeab2e1025499628c101ef",
+  "path": "Sources/ESP-IDF/components/openthread/openthread",
+  "archive_url": "https://codeload.github.com/espressif/openthread/tar.gz/b945928d722177cd9caeab2e1025499628c101ef",
+  "archive_sha256": "a5b979a4ebb2756926bb0c0a1d0085751dedaa476d97169f49471b488a6c4dbf",
+  "regular_files": 3908
+}

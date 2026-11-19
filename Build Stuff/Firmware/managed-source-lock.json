@@ -1,0 +1,23 @@
+[
+  {
+    "name": "espressif/mdns",
+    "version": "1.1.0",
+    "path": "Sources/Managed/mdns",
+    "archive_url": "https://components.espressif.com/api/downloads/?object_id=9cbbeaf5-0e8d-47e4-81b1-f4f5baba3fc0&object_type=component",
+    "archive_sha256": "933b96f8f27f9188dbd0de962b2a009d2649d98d35a1f2d286b1a61a8d8612ae"
+  },
+  {
+    "name": "espressif/esp_new_jpeg",
+    "version": "1.0.0",
+    "path": "Sources/Managed/esp_new_jpeg",
+    "archive_url": "https://components.espressif.com/api/downloads/?object_id=fada88e6-bed8-4199-9436-ea329d360810&object_type=component",
+    "archive_sha256": "e774c1df90f5e9b5e674ec93add93bb33e9f1e09572b3476c28d770dae86df06"
+  },
+  {
+    "name": "micropython/tinyusb-espressif",
+    "commit": "e4c0ec3caab3d9c25374de7047653b9ced8f14ff",
+    "path": "Sources/Managed/tinyusb",
+    "archive_url": "https://codeload.github.com/micropython/tinyusb-espressif/tar.gz/e4c0ec3caab3d9c25374de7047653b9ced8f14ff",
+    "archive_sha256": "1d5fada0faaba645af20d66efc71c00c23476d98ee10347c37c42242c846ac0f"
+  }
+]

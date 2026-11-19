@@ -1,0 +1,9 @@
+{
+  "name": "throwtheswitch/cexception",
+  "repository": "https://github.com/throwtheswitch/cexception",
+  "commit": "71b47be7c950f1bf5f7e5303779fa99a16224bb6",
+  "path": "Sources/ESP-IDF/components/cmock/CMock/vendor/c_exception",
+  "archive_url": "https://codeload.github.com/throwtheswitch/cexception/tar.gz/71b47be7c950f1bf5f7e5303779fa99a16224bb6",
+  "archive_sha256": "d5d61af0cdbc1a9903cc110c9ad1b53011f58487705fa1e57ac36ebd4bda49af",
+  "regular_files": 16
+}

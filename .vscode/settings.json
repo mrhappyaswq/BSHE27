@@ -1,34 +1,45 @@
 {
-  "VsCodeTaskButtons.showCounter": false,
-  "VsCodeTaskButtons.tasks": [
-    {
-      "label": "$(cloud-upload) Upload ESP32",
-      "task": "ESP32: Upload and restart",
-      "tooltip": "Copy MicroPython files to ESP32 and restart"
-    },
-    {
-      "label": "$(terminal) ESP32 Monitor",
-      "task": "ESP32: Monitor",
-      "tooltip": "Open the MicroPython serial monitor"
-    },
-    {
-      "label": "$(pulse) Check Pixhawk",
-      "task": "ESP32: Telemetry check",
-      "tooltip": "Check UART and telemetry without arming or movement"
-    }
-  ],
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
   "python.analysis.extraPaths": [
-    "${workspaceFolder}/device"
+    "${workspaceFolder}/Code",
+    "${workspaceFolder}/Build Stuff"
   ],
   "files.exclude": {
     "**/__pycache__": true,
     "**/*.pyc": true,
     ".venv": true,
-    ".pytest_cache": true
+    ".pytest_cache": true,
+    ".gitignore": true,
+    "BSHE27.code-workspace": true,
+    "firmware": true,
+    ".vscode": true
   },
   "search.exclude": {
-    "local/**": true,
+    "Build Stuff/archive/**": true,
+    "Build Stuff/local/**": true,
     ".venv/**": true,
-    "**/__pycache__/**": true
-  }
+    "**/__pycache__/**": true,
+    "Build Stuff/Firmware/Sources/**": true
+  },
+  "VsCodeTaskButtons.showCounter": false,
+  "VsCodeTaskButtons.tasks": [
+    {
+      "label": "$(cloud-upload) Upload S3",
+      "task": "S3: Upload MicroPython"
+    },
+    {
+      "label": "$(terminal) S3 Monitor",
+      "task": "S3: Monitor"
+    },
+    {
+      "label": "$(device-camera) Camera preview",
+      "task": "S3: Camera preview"
+    }
+  ],
+  "files.watcherExclude": {
+    "**/Build Stuff/Firmware/Sources/**": true
+  },
+  "python.analysis.exclude": [
+    "**/Build Stuff/Firmware/Sources/**"
+  ]
 }

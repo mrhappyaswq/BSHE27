@@ -1,0 +1,9 @@
+{
+  "name": "micropython/micropython-lib",
+  "repository": "https://github.com/micropython/micropython-lib",
+  "commit": "ee4bb8ff139e24c42b739935fbd8ec7c4d061e02",
+  "path": "Sources/Installed-MicroPython/lib/micropython-lib",
+  "archive_url": "https://codeload.github.com/micropython/micropython-lib/tar.gz/ee4bb8ff139e24c42b739935fbd8ec7c4d061e02",
+  "archive_sha256": "dda1a9e4e8388a13799df03aa5d8a3899d66f15d03032fdfedfaae173ffb06ab",
+  "regular_files": 564
+}

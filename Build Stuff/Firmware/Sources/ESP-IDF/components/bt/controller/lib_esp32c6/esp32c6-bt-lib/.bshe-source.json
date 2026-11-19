@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp32c6-bt-lib",
+  "repository": "https://github.com/espressif/esp32c6-bt-lib",
+  "commit": "3655fcdaadb66bb4cd4d497c2dbd4e6e2a4cc696",
+  "path": "Sources/ESP-IDF/components/bt/controller/lib_esp32c6/esp32c6-bt-lib",
+  "archive_url": "https://codeload.github.com/espressif/esp32c6-bt-lib/tar.gz/3655fcdaadb66bb4cd4d497c2dbd4e6e2a4cc696",
+  "archive_sha256": "b07543116adf24dedbef64b2abe1a2251fe25ba8a23c12fc6de2f3dd5e3b203d",
+  "regular_files": 4
+}

@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp-ble-mesh-lib",
+  "repository": "https://github.com/espressif/esp-ble-mesh-lib",
+  "commit": "d9fe7de9a9eb2a4e4c51172b9c303f9d800706fa",
+  "path": "Sources/ESP-IDF/components/bt/esp_ble_mesh/lib/lib",
+  "archive_url": "https://codeload.github.com/espressif/esp-ble-mesh-lib/tar.gz/d9fe7de9a9eb2a4e4c51172b9c303f9d800706fa",
+  "archive_sha256": "5dbd3c9fd9086d2d56c8b2a4166533304ad379932db560df1ddc0ba9db45d5f0",
+  "regular_files": 9
+}

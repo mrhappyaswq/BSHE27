@@ -2,11 +2,11 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "ESP32: Upload and restart",
+      "label": "S3: Upload MicroPython",
       "type": "process",
       "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
       "args": [
-        "tools/esp32.py",
+        "Build Stuff/tools/board.py",
         "upload",
         "--port",
         "auto"
@@ -14,23 +14,22 @@
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
+        "panel": "dedicated"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
       }
     },
     {
-      "label": "ESP32: Monitor",
+      "label": "S3: Monitor",
       "type": "process",
       "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
       "args": [
-        "tools/esp32.py",
+        "Build Stuff/tools/board.py",
         "monitor",
         "--port",
         "auto"
@@ -45,24 +44,28 @@
       }
     },
     {
-      "label": "ESP32: List USB devices",
+      "label": "S3: List USB devices",
       "type": "process",
       "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
       "args": [
-        "tools/esp32.py",
+        "Build Stuff/tools/board.py",
         "list"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     },
     {
-      "label": "ESP32: Telemetry check",
+      "label": "S3: Check Pixhawk",
       "type": "process",
       "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
       "args": [
-        "tools/esp32.py",
+        "Build Stuff/tools/board.py",
         "check",
         "--port",
         "auto"
@@ -77,18 +80,14 @@
       }
     },
     {
-      "label": "BANSHEE: Run host tests",
+      "label": "S3: Camera preview",
       "type": "process",
       "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
       "args": [
-        "-m",
-        "unittest",
-        "discover",
-        "-s",
-        "tests",
-        "-t",
-        ".",
-        "-v"
+        "Build Stuff/tools/board.py",
+        "camera",
+        "--port",
+        "auto"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -98,6 +97,64 @@
         "reveal": "always",
         "panel": "dedicated"
       }
+    },
+    {
+      "label": "S3: Check landing QR",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "Build Stuff/tools/board.py",
+        "qr-check",
+        "--port",
+        "auto"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "S3: RGB self-test",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "Build Stuff/tools/board.py",
+        "led-test",
+        "--port",
+        "auto"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "BSHE27: Run tests",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "Build Stuff/tests",
+        "-t",
+        "Build Stuff",
+        "-v"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
     }
   ]
 }

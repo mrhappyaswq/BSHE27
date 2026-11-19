@@ -1,0 +1,7 @@
+{
+  "name": "micropython/tinyusb-espressif",
+  "commit": "e4c0ec3caab3d9c25374de7047653b9ced8f14ff",
+  "path": "Sources/Managed/tinyusb",
+  "archive_url": "https://codeload.github.com/micropython/tinyusb-espressif/tar.gz/e4c0ec3caab3d9c25374de7047653b9ced8f14ff",
+  "archive_sha256": "1d5fada0faaba645af20d66efc71c00c23476d98ee10347c37c42242c846ac0f"
+}

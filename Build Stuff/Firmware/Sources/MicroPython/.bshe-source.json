@@ -1,0 +1,9 @@
+{
+  "name": "Camera-target interpreter: v1.27.0",
+  "repository": "https://github.com/micropython/micropython",
+  "commit": "78ff170de9e32c79db6e64d3e33d2bd60002bdcd",
+  "path": "Sources/MicroPython",
+  "archive_url": "https://codeload.github.com/micropython/micropython/tar.gz/78ff170de9e32c79db6e64d3e33d2bd60002bdcd",
+  "archive_sha256": "b21f1af6b29db7823a4af2958fdf17bf799bb5f0a046e5cd4709b245a66c6adc",
+  "regular_files": 6310
+}

@@ -1,0 +1,9 @@
+{
+  "name": "DaveGamble/cJSON",
+  "repository": "https://github.com/DaveGamble/cJSON",
+  "commit": "8f2beb57ddad1f94bed899790b00f46df893ccac",
+  "path": "Sources/ESP-IDF/components/json/cJSON",
+  "archive_url": "https://codeload.github.com/DaveGamble/cJSON/tar.gz/8f2beb57ddad1f94bed899790b00f46df893ccac",
+  "archive_sha256": "bc69a9e0796bb6e3434aeadbb49d3e37c4b7aec34fdb306e3f55b275ca7c6acb",
+  "regular_files": 216
+}

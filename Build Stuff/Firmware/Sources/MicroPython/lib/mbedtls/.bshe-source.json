@@ -1,0 +1,9 @@
+{
+  "name": "ARMmbed/mbedtls",
+  "repository": "https://github.com/ARMmbed/mbedtls",
+  "commit": "107ea89daaefb9867ea9121002fbbdf926780e98",
+  "path": "Sources/MicroPython/lib/mbedtls",
+  "archive_url": "https://codeload.github.com/ARMmbed/mbedtls/tar.gz/107ea89daaefb9867ea9121002fbbdf926780e98",
+  "archive_sha256": "7dc3219b00ab2d33d5108a6cfb1b6d11c1476f882493acdf0be5bcc9a181336b",
+  "regular_files": 1022
+}

@@ -1,0 +1,7 @@
+{
+  "name": "espressif/esp_new_jpeg",
+  "version": "1.0.0",
+  "path": "Sources/Managed/esp_new_jpeg",
+  "archive_url": "https://components.espressif.com/api/downloads/?object_id=fada88e6-bed8-4199-9436-ea329d360810&object_type=component",
+  "archive_sha256": "e774c1df90f5e9b5e674ec93add93bb33e9f1e09572b3476c28d770dae86df06"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp32-wifi-lib",
+  "repository": "https://github.com/espressif/esp32-wifi-lib",
+  "commit": "c1f74dcf9151ae21b7a3850b90952796a2806358",
+  "path": "Sources/ESP-IDF/components/esp_wifi/lib",
+  "archive_url": "https://codeload.github.com/espressif/esp32-wifi-lib/tar.gz/c1f74dcf9151ae21b7a3850b90952796a2806358",
+  "archive_sha256": "0867b4d3cbb8d9bc800cd36aacaa2663ed01bae9e13c4316aed5e402981c695c",
+  "regular_files": 70
+}

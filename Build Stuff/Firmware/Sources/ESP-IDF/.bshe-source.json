@@ -1,0 +1,9 @@
+{
+  "name": "ESP-IDF v5.5.1",
+  "repository": "https://github.com/espressif/esp-idf",
+  "commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "path": "Sources/ESP-IDF",
+  "archive_url": "https://codeload.github.com/espressif/esp-idf/tar.gz/fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "archive_sha256": "ad95862f0796251f51edab9afa9163ac7d14803cf208d5137a2e1fc5aa431e50",
+  "regular_files": 17628
+}

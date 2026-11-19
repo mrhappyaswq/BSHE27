@@ -1,0 +1,9 @@
+{
+  "name": "Installed standard interpreter source: v1.29.0",
+  "repository": "https://github.com/micropython/micropython",
+  "commit": "0fd6c573ea815774668bbb16b8e197c8822368b2",
+  "path": "Sources/Installed-MicroPython",
+  "archive_url": "https://codeload.github.com/micropython/micropython/tar.gz/0fd6c573ea815774668bbb16b8e197c8822368b2",
+  "archive_sha256": "77331374753ac6e524b9f7aa606fbcfd1cc2c6ae9fb567c971a2e31cb5de6225",
+  "regular_files": 6741
+}

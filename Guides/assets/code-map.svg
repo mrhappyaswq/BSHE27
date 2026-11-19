@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1120" viewBox="0 0 1280 1120" role="img" aria-labelledby="title description">
+<title id="title">BSHE27 MicroPython code block diagram</title>
+<desc id="description">Default camera and Wi-Fi dashboard runs alongside passive Pixhawk telemetry. The browser checks decoded frames and adjusts JPEG quality and FPS. BOOT mutes or resumes the shared RGB status indicator. Flight missions are manually started, with exclusive UART and camera ownership. Camera capture requires a firmware driver; QR landing also requires a local decoder.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#8093a9"/></marker></defs>
+<rect width="1280" height="1120" fill="#111821"/>
+<g font-family="Arial,sans-serif" fill="#edf4fc">
+<text x="30" y="46" font-size="30" font-weight="bold">BSHE27 · What the code does</text>
+<text x="30" y="72" font-size="16" fill="#b4c4d7">One S3-CAM running MicroPython. Pixhawk remains the flight controller.</text>
+<rect x="30" y="96" width="1220" height="65" rx="8" fill="#253244"/>
+<text x="50" y="123" font-size="20" font-weight="bold">Code/config.py</text>
+<text x="50" y="147" font-size="17">Pins · Wi-Fi · target IDs · mission limits · JPEG quality / FPS · RGB / BOOT</text>
+
+<text x="30" y="203" font-size="18" fill="#86c7ff" font-weight="bold">BACKGROUND · TELEMETRY</text>
+<text x="455" y="203" font-size="18" fill="#86c7ff" font-weight="bold">DEFAULT BOOT · DASHBOARD</text>
+<text x="880" y="203" font-size="18" fill="#86c7ff" font-weight="bold">MANUAL · FLIGHT MISSIONS</text>
+<rect x="30" y="225" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="46" y="253" font-size="20" fill="#edf4fc" font-weight="bold">TelemetryMonitor()</text>
+<text x="46" y="280" font-size="17" fill="#b4c4d7">Open UART1 with 8192-byte RX buffer</text>
+<text x="46" y="303" font-size="17" fill="#b4c4d7">Receive only; runs alongside video</text>
+<rect x="30" y="365" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="46" y="393" font-size="20" fill="#edf4fc" font-weight="bold">HeartbeatParser.feed()</text>
+<text x="46" y="420" font-size="17" fill="#b4c4d7">Validate incoming heartbeat bytes</text>
+<text x="46" y="443" font-size="17" fill="#b4c4d7">Filter configured ArduCopter target</text>
+<rect x="30" y="505" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="46" y="533" font-size="20" fill="#edf4fc" font-weight="bold">poll() + snapshot()</text>
+<text x="46" y="560" font-size="17" fill="#b4c4d7">Track heartbeat age, mode and armed</text>
+<text x="46" y="583" font-size="17" fill="#b4c4d7">Feed combined /status + RGB state</text>
+<rect x="30" y="645" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="46" y="673" font-size="20" fill="#edf4fc" font-weight="bold">Pixhawk → S3 UART</text>
+<text x="46" y="700" font-size="17" fill="#b4c4d7">GPIO42 receives Pixhawk TX</text>
+<text x="46" y="723" font-size="17" fill="#b4c4d7">Dashboard never transmits commands</text>
+<line x1="215" y1="325" x2="215" y2="365" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="215" y1="465" x2="215" y2="505" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="215" y1="605" x2="215" y2="645" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="455" y="225" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="471" y="253" font-size="20" fill="#edf4fc" font-weight="bold">camera_web.main()</text>
+<text x="471" y="280" font-size="17" fill="#b4c4d7">main.py starts this app by default</text>
+<text x="471" y="303" font-size="17" fill="#b4c4d7">No flight commands</text>
+<rect x="455" y="365" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="471" y="393" font-size="20" fill="#edf4fc" font-weight="bold">start_access_point()</text>
+<text x="471" y="420" font-size="17" fill="#b4c4d7">Broadcast BSHE27-Camera</text>
+<text x="471" y="443" font-size="17" fill="#b4c4d7">HTTP starts before camera init</text>
+<rect x="455" y="505" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="471" y="533" font-size="20" fill="#edf4fc" font-weight="bold">open_camera()</text>
+<text x="471" y="560" font-size="17" fill="#b4c4d7">QVGA RGB565 → native JPEG</text>
+<text x="471" y="583" font-size="17" fill="#b4c4d7">Fault? Keep diagnostics available</text>
+<line x1="400" y1="555" x2="455" y2="695" stroke="#86c7ff" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="455" y="645" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="471" y="673" font-size="20" fill="#edf4fc" font-weight="bold">serve()</text>
+<text x="471" y="700" font-size="17" fill="#b4c4d7">Page / status / stream / capture</text>
+<text x="471" y="723" font-size="17" fill="#b4c4d7">Settings · 5 s frame write limit</text>
+<rect x="455" y="785" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="471" y="813" font-size="20" fill="#edf4fc" font-weight="bold">Browser: index.html</text>
+<text x="471" y="840" font-size="17" fill="#b4c4d7">Decode frames; reconnect on stalls</text>
+<text x="471" y="863" font-size="17" fill="#b4c4d7">Quality / FPS + Pixhawk status</text>
+<line x1="640" y1="325" x2="640" y2="365" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="640" y1="465" x2="640" y2="505" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="640" y1="605" x2="640" y2="645" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="640" y1="745" x2="640" y2="785" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="880" y="225" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="896" y="253" font-size="20" fill="#edf4fc" font-weight="bold">missions/*.py → main()</text>
+<text x="896" y="280" font-size="17" fill="#b4c4d7">Explicit hover, GPS or marker run</text>
+<text x="896" y="303" font-size="17" fill="#b4c4d7">Never launched by reset/upload</text>
+<rect x="880" y="365" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="896" y="393" font-size="20" fill="#edf4fc" font-weight="bold">flight.run_mission()</text>
+<text x="896" y="420" font-size="17" fill="#b4c4d7">Connect, enforce lifecycle</text>
+<text x="896" y="443" font-size="17" fill="#b4c4d7">Handle errors and pilot override</text>
+<rect x="880" y="505" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="896" y="533" font-size="20" fill="#edf4fc" font-weight="bold">MAVLinkVehicle</text>
+<text x="896" y="560" font-size="17" fill="#b4c4d7">poll() validates fresh telemetry</text>
+<text x="896" y="583" font-size="17" fill="#b4c4d7">Send requests over Pixhawk UART</text>
+<rect x="880" y="645" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="896" y="673" font-size="20" fill="#edf4fc" font-weight="bold">Mission helpers</text>
+<text x="896" y="700" font-size="17" fill="#b4c4d7">arm_and_takeoff(), hold(), goto()</text>
+<text x="896" y="723" font-size="17" fill="#b4c4d7">QR: LocalCamera + local decoder</text>
+<rect x="880" y="785" width="370" height="100" rx="8" fill="#1d2a39"/>
+<text x="896" y="813" font-size="20" fill="#edf4fc" font-weight="bold">land_and_wait()</text>
+<text x="896" y="840" font-size="17" fill="#b4c4d7">Request LAND; wait for disarm</text>
+<text x="896" y="863" font-size="17" fill="#b4c4d7">Stop if the pilot changes mode</text>
+<line x1="1065" y1="325" x2="1065" y2="365" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="1065" y1="465" x2="1065" y2="505" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="1065" y1="605" x2="1065" y2="645" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="1065" y1="745" x2="1065" y2="785" stroke="#8093a9" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="30" y="945" width="1220" height="90" rx="8" fill="#253244"/>
+<text x="50" y="975" font-size="22" fill="#edf4fc" font-weight="bold">Shared: banshee/status_led.py</text>
+<text x="50" y="1002" font-size="19" fill="#b4c4d7">set() / pulse() / indicate() → StatusLED._tick() → GPIO48 RGB LED</text>
+<text x="50" y="1024" font-size="16" fill="#b4c4d7">Soft timer: show current status; debounced BOOT input mutes / resumes the indicator.</text>
+<line x1="215" y1="745" x2="215" y2="938" stroke="#8093a9" stroke-width="1.5" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+<line x1="640" y1="885" x2="640" y2="938" stroke="#8093a9" stroke-width="1.5" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+<line x1="1065" y1="885" x2="1065" y2="938" stroke="#8093a9" stroke-width="1.5" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+<text x="30" y="1070" font-size="17" fill="#b4c4d7">Camera + passive telemetry run together. Stop dashboard before starting a manual mission.</text>
+<text x="30" y="1097" font-size="17" fill="#b4c4d7">OV3660 camera: RGB565 capture + native JPEG encoding. Camera firmware installed; QR decoder remains optional.</text>
+</g></svg>

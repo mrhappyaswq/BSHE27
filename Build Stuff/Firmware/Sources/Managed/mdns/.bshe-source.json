@@ -1,0 +1,7 @@
+{
+  "name": "espressif/mdns",
+  "version": "1.1.0",
+  "path": "Sources/Managed/mdns",
+  "archive_url": "https://components.espressif.com/api/downloads/?object_id=9cbbeaf5-0e8d-47e4-81b1-f4f5baba3fc0&object_type=component",
+  "archive_sha256": "933b96f8f27f9188dbd0de962b2a009d2649d98d35a1f2d286b1a61a8d8612ae"
+}

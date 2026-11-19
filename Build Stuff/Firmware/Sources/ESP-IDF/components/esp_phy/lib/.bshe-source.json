@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp-phy-lib",
+  "repository": "https://github.com/espressif/esp-phy-lib",
+  "commit": "45ce2703403784b4c3983a52e453988d61eb0e9d",
+  "path": "Sources/ESP-IDF/components/esp_phy/lib",
+  "archive_url": "https://codeload.github.com/espressif/esp-phy-lib/tar.gz/45ce2703403784b4c3983a52e453988d61eb0e9d",
+  "archive_sha256": "fb1d68d49e5431e9e0c81abf7ed15a31f4401f964eaa9574d9c96da469d5eddf",
+  "regular_files": 46
+}

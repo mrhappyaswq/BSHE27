@@ -1,0 +1,9 @@
+{
+  "name": "libffi/libffi",
+  "repository": "https://github.com/libffi/libffi",
+  "commit": "3d0ce1e6fcf19f853894862abcbac0ae78a7be60",
+  "path": "Sources/MicroPython/lib/libffi",
+  "archive_url": "https://codeload.github.com/libffi/libffi/tar.gz/3d0ce1e6fcf19f853894862abcbac0ae78a7be60",
+  "archive_sha256": "148ebda16fc2dde2f0538541e7078ecf24628bbbf716fb5367e047192ebb806f",
+  "regular_files": 454
+}

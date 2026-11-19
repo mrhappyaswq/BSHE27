@@ -1,0 +1,9 @@
+{
+  "name": "espressif/tlsf",
+  "repository": "https://github.com/espressif/tlsf",
+  "commit": "2867f6883a12920b1969ff9624c0ab0e4185c2ce",
+  "path": "Sources/ESP-IDF/components/heap/tlsf",
+  "archive_url": "https://codeload.github.com/espressif/tlsf/tar.gz/2867f6883a12920b1969ff9624c0ab0e4185c2ce",
+  "archive_sha256": "a9dcb699a671b496bfb6a457bf750de25186a6a412f0602c6182ba67f248b536",
+  "regular_files": 8
+}

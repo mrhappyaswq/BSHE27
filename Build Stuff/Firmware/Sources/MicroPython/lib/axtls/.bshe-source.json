@@ -1,0 +1,9 @@
+{
+  "name": "micropython/axtls",
+  "repository": "https://github.com/micropython/axtls",
+  "commit": "531cab9c278c947d268bd4c94ecab9153a961b43",
+  "path": "Sources/MicroPython/lib/axtls",
+  "archive_url": "https://codeload.github.com/micropython/axtls/tar.gz/531cab9c278c947d268bd4c94ecab9153a961b43",
+  "archive_sha256": "48b5a599170fc6ba4e286fbbf749748fe3a8c430edf3de97e69f62186f53bddc",
+  "regular_files": 220
+}

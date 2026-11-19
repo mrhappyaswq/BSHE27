@@ -1,0 +1,9 @@
+{
+  "name": "cnadler86/esp32-camera",
+  "repository": "https://github.com/cnadler86/esp32-camera",
+  "commit": "32a7654a2477a0ce56bbae50a5548ebe48e22f71",
+  "path": "Sources/Camera-API/esp32-camera",
+  "archive_url": "https://codeload.github.com/cnadler86/esp32-camera/tar.gz/32a7654a2477a0ce56bbae50a5548ebe48e22f71",
+  "archive_sha256": "6d7fef8afd21c1b26c0962d62ef34ca6687f4461963bf8e15ec89e9347e3d4b9",
+  "regular_files": 107
+}

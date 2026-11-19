@@ -1,0 +1,9 @@
+{
+  "name": "Camera API v0.6.2",
+  "repository": "https://github.com/cnadler86/micropython-camera-API",
+  "commit": "8df3f70b20e52adad24f3f3de42628366f11cc06",
+  "path": "Sources/Camera-API",
+  "archive_url": "https://codeload.github.com/cnadler86/micropython-camera-API/tar.gz/8df3f70b20e52adad24f3f3de42628366f11cc06",
+  "archive_sha256": "29e785cd134ace847ba86f8afe9bfbfde0c8e30478e97dc28aa9686b1e01c1ee",
+  "regular_files": 27
+}

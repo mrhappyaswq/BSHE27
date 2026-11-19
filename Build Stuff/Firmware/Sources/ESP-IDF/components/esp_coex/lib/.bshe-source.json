@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp-coex-lib",
+  "repository": "https://github.com/espressif/esp-coex-lib",
+  "commit": "2d68674e3d522fb025e4666217f9cc1ca2af9399",
+  "path": "Sources/ESP-IDF/components/esp_coex/lib",
+  "archive_url": "https://codeload.github.com/espressif/esp-coex-lib/tar.gz/2d68674e3d522fb025e4666217f9cc1ca2af9399",
+  "archive_sha256": "1a9f5e3a619527468603a1d5d98cddaffbeaeadf04ae42787485b7ed12d86098",
+  "regular_files": 16
+}

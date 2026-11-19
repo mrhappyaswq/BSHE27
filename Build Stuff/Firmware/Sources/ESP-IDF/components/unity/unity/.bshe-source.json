@@ -1,0 +1,9 @@
+{
+  "name": "ThrowTheSwitch/Unity",
+  "repository": "https://github.com/ThrowTheSwitch/Unity",
+  "commit": "bf560290f6020737eafaa8b5cbd2177c3956c03f",
+  "path": "Sources/ESP-IDF/components/unity/unity",
+  "archive_url": "https://codeload.github.com/ThrowTheSwitch/Unity/tar.gz/bf560290f6020737eafaa8b5cbd2177c3956c03f",
+  "archive_sha256": "441fae1f1e49f545a871508bf096f50c69e602a9df54ef8a8a4972f52389b77e",
+  "regular_files": 176
+}

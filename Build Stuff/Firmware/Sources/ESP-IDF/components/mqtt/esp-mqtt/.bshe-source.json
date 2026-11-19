@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp-mqtt",
+  "repository": "https://github.com/espressif/esp-mqtt",
+  "commit": "6af4446a48ea7fa54948edc4e62277ed70abb6e1",
+  "path": "Sources/ESP-IDF/components/mqtt/esp-mqtt",
+  "archive_url": "https://codeload.github.com/espressif/esp-mqtt/tar.gz/6af4446a48ea7fa54948edc4e62277ed70abb6e1",
+  "archive_sha256": "29166d1e9c00267e73f3bb525ce921ad4ab80eb349ba1203e3a4d1a402b5e7eb",
+  "regular_files": 51
+}

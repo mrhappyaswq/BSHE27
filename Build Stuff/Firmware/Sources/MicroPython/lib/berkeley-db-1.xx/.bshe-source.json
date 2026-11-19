@@ -1,0 +1,9 @@
+{
+  "name": "micropython/berkeley-db-1.xx",
+  "repository": "https://github.com/micropython/berkeley-db-1.xx",
+  "commit": "0f3bb6947c2f57233916dccd7bb425d7bf86e5a6",
+  "path": "Sources/MicroPython/lib/berkeley-db-1.xx",
+  "archive_url": "https://codeload.github.com/micropython/berkeley-db-1.xx/tar.gz/0f3bb6947c2f57233916dccd7bb425d7bf86e5a6",
+  "archive_sha256": "beb27610d5279942b572f2abe0523d2b7db867cee417a90f4b56fb784ee46420",
+  "regular_files": 85
+}

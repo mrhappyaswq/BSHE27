@@ -1,7 +1,7 @@
 {
   "recommendations": [
     "ms-python.python",
-    "spencerwmiles.vscode-task-buttons",
-    "GitHub.vscode-pull-request-github"
+    "ms-python.vscode-pylance",
+    "spencerwmiles.vscode-task-buttons"
   ]
 }

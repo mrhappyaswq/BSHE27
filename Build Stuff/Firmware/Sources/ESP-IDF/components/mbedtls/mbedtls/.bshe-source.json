@@ -1,0 +1,9 @@
+{
+  "name": "espressif/mbedtls",
+  "repository": "https://github.com/espressif/mbedtls",
+  "commit": "b5d87eaa6748b7a6fa70593178c08b4480e9b71e",
+  "path": "Sources/ESP-IDF/components/mbedtls/mbedtls",
+  "archive_url": "https://codeload.github.com/espressif/mbedtls/tar.gz/b5d87eaa6748b7a6fa70593178c08b4480e9b71e",
+  "archive_sha256": "e6beb4ed862c83daba07f0d8091c0c361c843623b06674b2d8effe00e8e7aa9d",
+  "regular_files": 1877
+}

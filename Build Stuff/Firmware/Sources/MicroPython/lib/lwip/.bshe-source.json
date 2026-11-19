@@ -1,0 +1,9 @@
+{
+  "name": "lwip-tcpip/lwip",
+  "repository": "https://github.com/lwip-tcpip/lwip",
+  "commit": "77dcd25a72509eb83f72b033d219b1d40cd8eb95",
+  "path": "Sources/MicroPython/lib/lwip",
+  "archive_url": "https://codeload.github.com/lwip-tcpip/lwip/tar.gz/77dcd25a72509eb83f72b033d219b1d40cd8eb95",
+  "archive_sha256": "85a09ebe68c260d4876e800220588e5a0b624266c994cc25da978210c2813f14",
+  "regular_files": 721
+}

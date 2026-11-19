@@ -1,0 +1,9 @@
+{
+  "name": "Mbed-TLS/mbedtls-framework",
+  "repository": "https://github.com/Mbed-TLS/mbedtls-framework",
+  "commit": "94599c0e3b5036e086446a51a3f79640f70f22f6",
+  "path": "Sources/MicroPython/lib/mbedtls/framework",
+  "archive_url": "https://codeload.github.com/Mbed-TLS/mbedtls-framework/tar.gz/94599c0e3b5036e086446a51a3f79640f70f22f6",
+  "archive_sha256": "632d5aa4dd2e4179f9d648be12af9a9c3158d7f503a93e70e651751b5f31257c",
+  "regular_files": 834
+}

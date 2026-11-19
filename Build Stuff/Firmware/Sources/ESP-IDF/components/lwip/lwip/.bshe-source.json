@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp-lwip",
+  "repository": "https://github.com/espressif/esp-lwip",
+  "commit": "ebabd6d79c120c5d4415755aab1d908d8b5fa372",
+  "path": "Sources/ESP-IDF/components/lwip/lwip",
+  "archive_url": "https://codeload.github.com/espressif/esp-lwip/tar.gz/ebabd6d79c120c5d4415755aab1d908d8b5fa372",
+  "archive_sha256": "609a4db4e65c7e67acad8325bc48ecd6913cf10c606ff8c3e8fc25589d9d2a1c",
+  "regular_files": 747
+}

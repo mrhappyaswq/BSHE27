@@ -1,0 +1,9 @@
+{
+  "name": "JPEG module snapshot at release time; exact binary revision undisclosed",
+  "repository": "https://github.com/cnadler86/mp_jpeg",
+  "commit": "451e9599f6512a7d9ccbd6f8cee1115cab57b527",
+  "path": "Sources/mp_jpeg",
+  "archive_url": "https://codeload.github.com/cnadler86/mp_jpeg/tar.gz/451e9599f6512a7d9ccbd6f8cee1115cab57b527",
+  "archive_sha256": "220d2994789df45b1551472901c722fe9778b1eead911d03dd10131ac66bd101",
+  "regular_files": 9
+}

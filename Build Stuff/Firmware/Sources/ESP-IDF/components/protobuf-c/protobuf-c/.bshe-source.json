@@ -1,0 +1,9 @@
+{
+  "name": "protobuf-c/protobuf-c",
+  "repository": "https://github.com/protobuf-c/protobuf-c",
+  "commit": "abc67a11c6db271bedbb9f58be85d6f4e2ea8389",
+  "path": "Sources/ESP-IDF/components/protobuf-c/protobuf-c",
+  "archive_url": "https://codeload.github.com/protobuf-c/protobuf-c/tar.gz/abc67a11c6db271bedbb9f58be85d6f4e2ea8389",
+  "archive_sha256": "6f41b467d7b7242bb201f6466ba433f6eab943e2b6fc53bb753340632c9e45e2",
+  "regular_files": 83
+}

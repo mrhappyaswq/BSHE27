@@ -1,0 +1,9 @@
+{
+  "name": "adafruit/asf4",
+  "repository": "https://github.com/adafruit/asf4",
+  "commit": "84f56af13292d8f32c40acbd949bde698ddd4507",
+  "path": "Sources/MicroPython/lib/asf4",
+  "archive_url": "https://codeload.github.com/adafruit/asf4/tar.gz/84f56af13292d8f32c40acbd949bde698ddd4507",
+  "archive_sha256": "6fc616acff3ba8a7d88772df71bc4aa485d3d5e74029b21f0bafc29b16bd50e8",
+  "regular_files": 1509
+}

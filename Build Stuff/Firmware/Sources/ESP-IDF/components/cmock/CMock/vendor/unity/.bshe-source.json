@@ -1,0 +1,9 @@
+{
+  "name": "throwtheswitch/unity",
+  "repository": "https://github.com/throwtheswitch/unity",
+  "commit": "cf949f45ca6d172a177b00da21310607b97bc7a7",
+  "path": "Sources/ESP-IDF/components/cmock/CMock/vendor/unity",
+  "archive_url": "https://codeload.github.com/throwtheswitch/unity/tar.gz/cf949f45ca6d172a177b00da21310607b97bc7a7",
+  "archive_sha256": "2d9b32a0a203874e8e97ad23bd5ba377d47e67d01fd20bb72b9588ecc90d040f",
+  "regular_files": 157
+}

@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp-thread-lib",
+  "repository": "https://github.com/espressif/esp-thread-lib",
+  "commit": "ec0296c44f628b8e1d1cb78898fe62baa2f90d13",
+  "path": "Sources/ESP-IDF/components/openthread/lib",
+  "archive_url": "https://codeload.github.com/espressif/esp-thread-lib/tar.gz/ec0296c44f628b8e1d1cb78898fe62baa2f90d13",
+  "archive_sha256": "006963483fc9a7fbb09d4a53ba16619adf7eeccb795802c962fd1af246b101da",
+  "regular_files": 12
+}

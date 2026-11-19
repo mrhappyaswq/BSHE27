@@ -1,0 +1,9 @@
+{
+  "name": "NordicSemiconductor/nrfx",
+  "repository": "https://github.com/NordicSemiconductor/nrfx",
+  "commit": "7a4c9d946cf1801771fc180acdbf7b878f270093",
+  "path": "Sources/MicroPython/lib/nrfx",
+  "archive_url": "https://codeload.github.com/NordicSemiconductor/nrfx/tar.gz/7a4c9d946cf1801771fc180acdbf7b878f270093",
+  "archive_sha256": "405800dc3eb697c5b57b40ae7f0afceda818b51eb8ed8a06eb64981f3d108c4c",
+  "regular_files": 359
+}

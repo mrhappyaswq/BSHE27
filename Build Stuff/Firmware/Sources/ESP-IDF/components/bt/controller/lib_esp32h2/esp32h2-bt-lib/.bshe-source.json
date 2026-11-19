@@ -1,0 +1,9 @@
+{
+  "name": "espressif/esp32h2-bt-lib",
+  "repository": "https://github.com/espressif/esp32h2-bt-lib",
+  "commit": "a2ba40fae2462488f65efca042e5cecd9e018c7e",
+  "path": "Sources/ESP-IDF/components/bt/controller/lib_esp32h2/esp32h2-bt-lib",
+  "archive_url": "https://codeload.github.com/espressif/esp32h2-bt-lib/tar.gz/a2ba40fae2462488f65efca042e5cecd9e018c7e",
+  "archive_sha256": "eb88a1696322cac51a3a7235c4e9c935e1ac739fe51049b91d18f616f67afc7e",
+  "regular_files": 5
+}

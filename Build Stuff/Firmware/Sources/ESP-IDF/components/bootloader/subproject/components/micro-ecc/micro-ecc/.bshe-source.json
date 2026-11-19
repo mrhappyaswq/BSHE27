@@ -1,0 +1,9 @@
+{
+  "name": "kmackay/micro-ecc",
+  "repository": "https://github.com/kmackay/micro-ecc",
+  "commit": "24c60e243580c7868f4334a1ba3123481fe1aa48",
+  "path": "Sources/ESP-IDF/components/bootloader/subproject/components/micro-ecc/micro-ecc",
+  "archive_url": "https://codeload.github.com/kmackay/micro-ecc/tar.gz/24c60e243580c7868f4334a1ba3123481fe1aa48",
+  "archive_sha256": "e3f5830c8a1c25d5db4d514b703616cc9384ebff7169b3503080ef97213b3d9c",
+  "regular_files": 31
+}

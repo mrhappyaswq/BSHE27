@@ -1,0 +1,9 @@
+{
+  "name": "micropython/stm32lib",
+  "repository": "https://github.com/micropython/stm32lib",
+  "commit": "07619754261b571fb2f7c9f36ab94c203880d9fb",
+  "path": "Sources/MicroPython/lib/stm32lib",
+  "archive_url": "https://codeload.github.com/micropython/stm32lib/tar.gz/07619754261b571fb2f7c9f36ab94c203880d9fb",
+  "archive_sha256": "e6c2090f4ca43f9ccbb2171a3c73d641aa61e1291f9fcdab9c3f76695489f94a",
+  "regular_files": 3482
+}

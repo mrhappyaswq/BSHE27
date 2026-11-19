@@ -1,0 +1,7 @@
+{
+  "source": "https://github.com/cnadler86/micropython-camera-API/releases/download/v0.6.2/mpy_cam-v1.27.0-ESP32_GENERIC_S3-SPIRAM_OCT.zip",
+  "sha256": "e79b69401f580ed987a5b2ac368d051df66432e52067e6c8263611cdc2a7de68",
+  "files": [
+    "firmware.bin"
+  ]
+}

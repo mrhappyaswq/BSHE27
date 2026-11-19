@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BSHE27 Dashboard</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#111821;color:#edf4fc;font:16px system-ui,sans-serif}
+main{max-width:960px;margin:auto;padding:24px}h1{font-size:28px}p{color:#b4c4d7;line-height:1.5}
+.states{display:flex;gap:24px;flex-wrap:wrap}.states p{margin:8px 0}.states strong{color:#edf4fc}
+.frame{background:#080c11;min-height:240px;border-radius:14px;overflow:hidden;display:grid;place-items:center;margin:20px 0;padding:12px}
+img{display:block;width:100%;max-height:70vh;object-fit:contain}[hidden]{display:none!important}
+button,a{display:inline-block;background:#aad5ff;color:#102030;border:0;border-radius:8px;padding:12px 18px;font:inherit;cursor:pointer;text-decoration:none;margin:0 8px 8px 0}
+button:disabled,a[aria-disabled=true]{opacity:.45;cursor:default}#error{color:#ffb4b4;overflow-wrap:anywhere}
+form{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:16px 0}label{display:grid;gap:6px}
+select,input{background:#263749;color:#edf4fc;border:1px solid #63809c;border-radius:8px;padding:10px;font:inherit;max-width:100%}
+form button{margin:0}small{color:#b4c4d7}#settings-message{min-height:24px}
+</style>
+<main><h1>BSHE27 · Camera &amp; Pixhawk</h1>
+<div class="states"><p>Network: <strong id="network">Checking connection…</strong></p>
+<p>Camera: <strong id="camera">Checking camera…</strong></p></div>
+<div class="states"><p>Pixhawk: <strong id="pixhawk">Checking telemetry…</strong></p>
+<p>Flight state: <strong id="flight">Unknown</strong></p></div>
+<p id="telemetry-detail">Listening for ArduCopter heartbeats. Monitoring only.</p>
+<p id="error" role="alert" hidden></p>
+<div class="frame"><p id="placeholder">Checking camera availability…</p><img id="feed" alt="Live camera preview" hidden></div>
+<button id="toggle" disabled>Start live view</button><a id="snapshot" aria-disabled="true" target="_blank" rel="noopener">Open snapshot</a>
+<form id="settings"><label>JPEG detail (35–90)<input id="quality" type="number" min="35" max="90" step="1" value="35" list="quality-presets" required></label>
+<datalist id="quality-presets"><option value="35" label="Smallest files"></option><option value="50" label="Faster transfer"></option><option value="75" label="Balanced"></option><option value="90" label="Best detail"></option></datalist>
+<label>Frame-rate limit (1–15 FPS)<input id="fps" type="number" min="1" max="15" step="1" value="1" required></label>
+<button id="apply" disabled>Apply</button></form>
+<small>320 × 240 color. Lower JPEG detail makes smaller files and can improve speed. Actual FPS depends on lighting and Wi-Fi. Settings reset on reboot.</small>
+<p id="settings-message" role="status"></p><p id="indicator">Indicator: press BOOT briefly to mute or enable.</p>
+<p id="status" role="status" aria-live="polite">Checking the board…</p></main>
+<script>
+const feed=document.getElementById('feed'),toggle=document.getElementById('toggle'),status=document.getElementById('status');
+const networkLabel=document.getElementById('network'),cameraLabel=document.getElementById('camera'),errorLabel=document.getElementById('error');
+const placeholder=document.getElementById('placeholder'),snapshot=document.getElementById('snapshot');
+const pixhawkLabel=document.getElementById('pixhawk'),flightLabel=document.getElementById('flight'),telemetryDetail=document.getElementById('telemetry-detail');
+const quality=document.getElementById('quality'),fps=document.getElementById('fps'),apply=document.getElementById('apply');
+const settingsMessage=document.getElementById('settings-message'),indicator=document.getElementById('indicator');
+let playing=false,cameraReady=false,wantLive=true,retryTimer=null,refreshing=false;
+let retryDelay=1000,lastProgress=0,streamGeneration=0,streamController=null,imageURL=null;
+let settingsDirty=false,settingsBusy=false,frameFetching=false,frameInterval=1000;
+function showError(message){errorLabel.textContent=message||'';errorLabel.hidden=!message;}
+function detach(message){
+  ++streamGeneration;if(streamController)streamController.abort();streamController=null;
+  if(imageURL){URL.revokeObjectURL(imageURL);imageURL=null;}
+  playing=false;feed.hidden=true;feed.removeAttribute('src');placeholder.hidden=false;
+  placeholder.textContent=message;status.textContent=message;
+}
+function stop(message='Live view paused'){
+  wantLive=false;clearTimeout(retryTimer);retryTimer=null;detach(message);toggle.textContent='Start live view';
+}
+function reconnect(message){
+  if(!wantLive||retryTimer!==null)return;
+  detach(message||'Reconnecting live camera…');toggle.textContent='Stop live view';
+  retryTimer=setTimeout(()=>{retryTimer=null;if(wantLive&&cameraReady)start();},retryDelay);
+  retryDelay=Math.min(retryDelay*2,5000);
+}
+function showTelemetry(t){
+  const names={waiting:'Waiting for heartbeat',connected:'Connected',lost:'Heartbeat lost',error:'UART error',disabled:'Disabled'};
+  pixhawkLabel.textContent=t?(names[t.state]||'Unknown'):'Unavailable';
+  flightLabel.textContent=t&&t.state==='connected'?(t.armed?'Armed':'Disarmed')+' · mode '+t.custom_mode:'Unknown';
+  telemetryDetail.textContent=t?(t.error||('Target '+t.system_id+':'+t.component_id+' · '+t.heartbeats+' heartbeats · '+t.uart_bytes+' UART bytes'+(t.heartbeat_age_ms==null?'':' · last heartbeat '+(t.heartbeat_age_ms/1000).toFixed(1)+'s ago')+' · Receive only')):'Telemetry unavailable';
+}
+function applyState(s){
+  showTelemetry(s.pixhawk);
+  frameInterval=1000/Math.max(1,Math.min(15,s.fps_limit||1));
+  networkLabel.textContent=s.device_connected===true?'Device connected':(s.wifi_up===true?'Hotspot broadcasting · board reachable':'Board reachable');
+  cameraReady=s.ready===true;toggle.disabled=!cameraReady;snapshot.setAttribute('aria-disabled',String(!cameraReady));
+  apply.disabled=!cameraReady||settingsBusy;
+  indicator.textContent='Indicator: '+(s.led_enabled===false?'Muted':'Enabled')+' · press BOOT briefly to toggle.';
+  if(!settingsDirty&&!settingsBusy&&typeof s.quality==='number'){
+    quality.value=String(s.quality);fps.value=String(s.fps_limit);
+  }
+  if(!cameraReady){
+    const initializing=s.camera_state==='initializing';
+    snapshot.removeAttribute('href');cameraLabel.textContent=initializing?'Starting camera…':'Unavailable';
+    detach(initializing?'Starting camera…':'Live view unavailable');
+    showError(initializing?null:(s.error||'Camera could not initialize. Check the board console.'));return;
+  }
+  snapshot.href='/capture';cameraLabel.textContent=s.error?'Retrying capture':'Ready';showError(s.error);
+  if(!wantLive)return;
+  if(!playing){if(retryTimer===null)start();return;}
+  const now=Date.now();
+  if(now-lastProgress>8000){
+    reconnect(s.stream_error?'Reconnecting: '+s.stream_error:'Stream stalled · reconnecting…');
+  }
+}
+async function refresh(){
+  if(refreshing||frameFetching)return;
+  refreshing=true;
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),5000);
+  let received=false;
+  try{
+    const response=await fetch('/status?t='+Date.now(),{cache:'no-store',signal:controller.signal});
+    if(!response.ok)throw new Error('Board status request failed');
+    const state=await response.json();received=true;applyState(state);
+  }catch(error){
+    if(received){showError('Dashboard display error: '+error.message);return;}
+    showTelemetry(null);networkLabel.textContent='Board unreachable';cameraReady=false;toggle.disabled=!wantLive;
+    apply.disabled=true;
+    snapshot.removeAttribute('href');snapshot.setAttribute('aria-disabled','true');
+    if(wantLive){clearTimeout(retryTimer);retryTimer=null;detach('Waiting to reconnect to BSHE27-Camera…');}
+    showError('Status request failed: '+error.name+' � '+error.message+'. Retrying�');
+  }finally{clearTimeout(timeout);refreshing=false;}
+}
+function start(){
+  if(!cameraReady||playing)return;
+  wantLive=true;playing=true;lastProgress=Date.now();
+  toggle.textContent='Stop live view';status.textContent='Connecting to live camera…';
+  placeholder.textContent='Starting live view…';placeholder.hidden=false;
+  const generation=++streamGeneration;
+  streamController=new AbortController();
+  receiveFrames(generation,streamController.signal).catch(error=>{
+    if(generation===streamGeneration&&wantLive)reconnect('Stream disconnected · reconnecting…');
+  });
+}
+
+async function receiveFrames(generation,signal){
+  // A completed JPEG per request also works in browsers that buffer MJPEG fetches.
+  // Status and preview requests take turns, keeping one heavy transfer at a time.
+  while(generation===streamGeneration&&!signal.aborted){
+    if(refreshing||settingsBusy){await new Promise(resolve=>setTimeout(resolve,50));continue;}
+    const started=Date.now(),controller=new AbortController();
+    const abort=()=>controller.abort();signal.addEventListener('abort',abort,{once:true});
+    const timeout=setTimeout(abort,10000);
+    frameFetching=true;
+    try{
+      const response=await fetch('/capture?t='+Date.now(),{cache:'no-store',signal:controller.signal});
+      if(!response.ok)throw new Error('JPEG request failed: HTTP '+response.status);
+      const frame=new Uint8Array(await response.arrayBuffer());
+      if(generation!==streamGeneration)return;
+      if(frame.length<4||frame[0]!==255||frame[1]!==216||frame[frame.length-2]!==255||frame[frame.length-1]!==217)throw new Error('Invalid JPEG');
+      const nextURL=URL.createObjectURL(new Blob([frame],{type:'image/jpeg'}));
+      if(imageURL)URL.revokeObjectURL(imageURL);imageURL=nextURL;feed.src=nextURL;
+    }finally{
+      clearTimeout(timeout);signal.removeEventListener('abort',abort);frameFetching=false;
+    }
+    await new Promise(resolve=>setTimeout(resolve,Math.max(50,frameInterval-(Date.now()-started))));
+    if(generation!==streamGeneration)return;
+    await refresh();
+  }
+}
+
+quality.oninput=fps.oninput=()=>{settingsDirty=true;};
+document.getElementById('settings').onsubmit=async event=>{
+  event.preventDefault();if(!cameraReady||settingsBusy)return;
+  settingsBusy=true;apply.disabled=true;settingsMessage.textContent='Applying camera settings…';
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),5000);
+  try{
+    const response=await fetch('/settings',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({quality:Number(quality.value),fps_limit:Number(fps.value)}),signal:controller.signal});
+    const result=await response.json();if(!response.ok)throw new Error(result.error||'Settings rejected');
+    quality.value=String(result.quality);fps.value=String(result.fps_limit);settingsDirty=false;
+    settingsMessage.textContent='Applied · JPEG '+result.quality+' · up to '+result.fps_limit+' FPS';
+  }catch(error){settingsMessage.textContent='Settings were not confirmed. '+error.message;
+  }finally{clearTimeout(timeout);settingsBusy=false;apply.disabled=!cameraReady;}
+};
+toggle.onclick=()=>{if(wantLive)stop();else start();};
+snapshot.onclick=event=>{if(!cameraReady)event.preventDefault();};
+feed.onload=()=>{if(playing){lastProgress=Date.now();retryDelay=1000;feed.hidden=false;placeholder.hidden=true;status.textContent='Live view connected';}};
+feed.onerror=()=>{if(playing)reconnect('Stream disconnected · reconnecting…');};
+window.addEventListener('pagehide',()=>stop());
+refresh();setInterval(refresh,2000);
+</script></html>

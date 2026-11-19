@@ -1,0 +1,495 @@
+{
+  "format": 1,
+  "board": "ESP32_GENERIC_S3",
+  "variant": "SPIRAM_OCT",
+  "sources": [
+    {
+      "name": "Camera API v0.6.2",
+      "repository": "https://github.com/cnadler86/micropython-camera-API",
+      "commit": "8df3f70b20e52adad24f3f3de42628366f11cc06",
+      "path": "Sources/Camera-API",
+      "archive_url": "https://codeload.github.com/cnadler86/micropython-camera-API/tar.gz/8df3f70b20e52adad24f3f3de42628366f11cc06",
+      "archive_sha256": "29e785cd134ace847ba86f8afe9bfbfde0c8e30478e97dc28aa9686b1e01c1ee",
+      "regular_files": 27
+    },
+    {
+      "name": "ESP-IDF v5.5.1",
+      "repository": "https://github.com/espressif/esp-idf",
+      "commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+      "path": "Sources/ESP-IDF",
+      "archive_url": "https://codeload.github.com/espressif/esp-idf/tar.gz/fcae32885b0296b32044cb99ecbdc50d98dddb83",
+      "archive_sha256": "ad95862f0796251f51edab9afa9163ac7d14803cf208d5137a2e1fc5aa431e50",
+      "regular_files": 17628
+    },
+    {
+      "name": "Installed standard interpreter source: v1.29.0",
+      "repository": "https://github.com/micropython/micropython",
+      "commit": "0fd6c573ea815774668bbb16b8e197c8822368b2",
+      "path": "Sources/Installed-MicroPython",
+      "archive_url": "https://codeload.github.com/micropython/micropython/tar.gz/0fd6c573ea815774668bbb16b8e197c8822368b2",
+      "archive_sha256": "77331374753ac6e524b9f7aa606fbcfd1cc2c6ae9fb567c971a2e31cb5de6225",
+      "regular_files": 6741
+    },
+    {
+      "name": "Camera-target interpreter: v1.27.0",
+      "repository": "https://github.com/micropython/micropython",
+      "commit": "78ff170de9e32c79db6e64d3e33d2bd60002bdcd",
+      "path": "Sources/MicroPython",
+      "archive_url": "https://codeload.github.com/micropython/micropython/tar.gz/78ff170de9e32c79db6e64d3e33d2bd60002bdcd",
+      "archive_sha256": "b21f1af6b29db7823a4af2958fdf17bf799bb5f0a046e5cd4709b245a66c6adc",
+      "regular_files": 6310
+    },
+    {
+      "name": "JPEG module snapshot at release time; exact binary revision undisclosed",
+      "repository": "https://github.com/cnadler86/mp_jpeg",
+      "commit": "451e9599f6512a7d9ccbd6f8cee1115cab57b527",
+      "path": "Sources/mp_jpeg",
+      "archive_url": "https://codeload.github.com/cnadler86/mp_jpeg/tar.gz/451e9599f6512a7d9ccbd6f8cee1115cab57b527",
+      "archive_sha256": "220d2994789df45b1551472901c722fe9778b1eead911d03dd10131ac66bd101",
+      "regular_files": 9
+    },
+    {
+      "name": "adafruit/asf4",
+      "repository": "https://github.com/adafruit/asf4",
+      "commit": "84f56af13292d8f32c40acbd949bde698ddd4507",
+      "path": "Sources/MicroPython/lib/asf4",
+      "archive_url": "https://codeload.github.com/adafruit/asf4/tar.gz/84f56af13292d8f32c40acbd949bde698ddd4507",
+      "archive_sha256": "6fc616acff3ba8a7d88772df71bc4aa485d3d5e74029b21f0bafc29b16bd50e8",
+      "regular_files": 1509
+    },
+    {
+      "name": "micropython/axtls",
+      "repository": "https://github.com/micropython/axtls",
+      "commit": "531cab9c278c947d268bd4c94ecab9153a961b43",
+      "path": "Sources/MicroPython/lib/axtls",
+      "archive_url": "https://codeload.github.com/micropython/axtls/tar.gz/531cab9c278c947d268bd4c94ecab9153a961b43",
+      "archive_sha256": "48b5a599170fc6ba4e286fbbf749748fe3a8c430edf3de97e69f62186f53bddc",
+      "regular_files": 220
+    },
+    {
+      "name": "micropython/berkeley-db-1.xx",
+      "repository": "https://github.com/micropython/berkeley-db-1.xx",
+      "commit": "0f3bb6947c2f57233916dccd7bb425d7bf86e5a6",
+      "path": "Sources/MicroPython/lib/berkeley-db-1.xx",
+      "archive_url": "https://codeload.github.com/micropython/berkeley-db-1.xx/tar.gz/0f3bb6947c2f57233916dccd7bb425d7bf86e5a6",
+      "archive_sha256": "beb27610d5279942b572f2abe0523d2b7db867cee417a90f4b56fb784ee46420",
+      "regular_files": 85
+    },
+    {
+      "name": "libffi/libffi",
+      "repository": "https://github.com/libffi/libffi",
+      "commit": "3d0ce1e6fcf19f853894862abcbac0ae78a7be60",
+      "path": "Sources/MicroPython/lib/libffi",
+      "archive_url": "https://codeload.github.com/libffi/libffi/tar.gz/3d0ce1e6fcf19f853894862abcbac0ae78a7be60",
+      "archive_sha256": "148ebda16fc2dde2f0538541e7078ecf24628bbbf716fb5367e047192ebb806f",
+      "regular_files": 454
+    },
+    {
+      "name": "lwip-tcpip/lwip",
+      "repository": "https://github.com/lwip-tcpip/lwip",
+      "commit": "77dcd25a72509eb83f72b033d219b1d40cd8eb95",
+      "path": "Sources/MicroPython/lib/lwip",
+      "archive_url": "https://codeload.github.com/lwip-tcpip/lwip/tar.gz/77dcd25a72509eb83f72b033d219b1d40cd8eb95",
+      "archive_sha256": "85a09ebe68c260d4876e800220588e5a0b624266c994cc25da978210c2813f14",
+      "regular_files": 721
+    },
+    {
+      "name": "ARMmbed/mbedtls",
+      "repository": "https://github.com/ARMmbed/mbedtls",
+      "commit": "107ea89daaefb9867ea9121002fbbdf926780e98",
+      "path": "Sources/MicroPython/lib/mbedtls",
+      "archive_url": "https://codeload.github.com/ARMmbed/mbedtls/tar.gz/107ea89daaefb9867ea9121002fbbdf926780e98",
+      "archive_sha256": "7dc3219b00ab2d33d5108a6cfb1b6d11c1476f882493acdf0be5bcc9a181336b",
+      "regular_files": 1022
+    },
+    {
+      "name": "micropython/micropython-lib",
+      "repository": "https://github.com/micropython/micropython-lib",
+      "commit": "6ae440a8a144233e6e703f6759b7e7a0afaa37a4",
+      "path": "Sources/MicroPython/lib/micropython-lib",
+      "archive_url": "https://codeload.github.com/micropython/micropython-lib/tar.gz/6ae440a8a144233e6e703f6759b7e7a0afaa37a4",
+      "archive_sha256": "c4f73492e038b6c0830cd82d0c37a4e61523cb30a800be0b1f6dbca4e48f971d",
+      "regular_files": 546
+    },
+    {
+      "name": "NordicSemiconductor/nrfx",
+      "repository": "https://github.com/NordicSemiconductor/nrfx",
+      "commit": "7a4c9d946cf1801771fc180acdbf7b878f270093",
+      "path": "Sources/MicroPython/lib/nrfx",
+      "archive_url": "https://codeload.github.com/NordicSemiconductor/nrfx/tar.gz/7a4c9d946cf1801771fc180acdbf7b878f270093",
+      "archive_sha256": "405800dc3eb697c5b57b40ae7f0afceda818b51eb8ed8a06eb64981f3d108c4c",
+      "regular_files": 359
+    },
+    {
+      "name": "micropython/stm32lib",
+      "repository": "https://github.com/micropython/stm32lib",
+      "commit": "07619754261b571fb2f7c9f36ab94c203880d9fb",
+      "path": "Sources/MicroPython/lib/stm32lib",
+      "archive_url": "https://codeload.github.com/micropython/stm32lib/tar.gz/07619754261b571fb2f7c9f36ab94c203880d9fb",
+      "archive_sha256": "e6c2090f4ca43f9ccbb2171a3c73d641aa61e1291f9fcdab9c3f76695489f94a",
+      "regular_files": 3482
+    },
+    {
+      "name": "Mbed-TLS/mbedtls-framework",
+      "repository": "https://github.com/Mbed-TLS/mbedtls-framework",
+      "commit": "94599c0e3b5036e086446a51a3f79640f70f22f6",
+      "path": "Sources/MicroPython/lib/mbedtls/framework",
+      "archive_url": "https://codeload.github.com/Mbed-TLS/mbedtls-framework/tar.gz/94599c0e3b5036e086446a51a3f79640f70f22f6",
+      "archive_sha256": "632d5aa4dd2e4179f9d648be12af9a9c3158d7f503a93e70e651751b5f31257c",
+      "regular_files": 834
+    },
+    {
+      "name": "espressif/esp_new_jpeg",
+      "version": "1.0.0",
+      "path": "Sources/Managed/esp_new_jpeg",
+      "archive_url": "https://components.espressif.com/api/downloads/?object_id=fada88e6-bed8-4199-9436-ea329d360810&object_type=component",
+      "archive_sha256": "e774c1df90f5e9b5e674ec93add93bb33e9f1e09572b3476c28d770dae86df06"
+    },
+    {
+      "name": "espressif/mdns",
+      "version": "1.1.0",
+      "path": "Sources/Managed/mdns",
+      "archive_url": "https://components.espressif.com/api/downloads/?object_id=9cbbeaf5-0e8d-47e4-81b1-f4f5baba3fc0&object_type=component",
+      "archive_sha256": "933b96f8f27f9188dbd0de962b2a009d2649d98d35a1f2d286b1a61a8d8612ae"
+    },
+    {
+      "name": "micropython/tinyusb-espressif",
+      "commit": "e4c0ec3caab3d9c25374de7047653b9ced8f14ff",
+      "path": "Sources/Managed/tinyusb",
+      "archive_url": "https://codeload.github.com/micropython/tinyusb-espressif/tar.gz/e4c0ec3caab3d9c25374de7047653b9ced8f14ff",
+      "archive_sha256": "1d5fada0faaba645af20d66efc71c00c23476d98ee10347c37c42242c846ac0f"
+    },
+    {
+      "name": "micropython/micropython-lib",
+      "repository": "https://github.com/micropython/micropython-lib",
+      "commit": "ee4bb8ff139e24c42b739935fbd8ec7c4d061e02",
+      "path": "Sources/Installed-MicroPython/lib/micropython-lib",
+      "archive_url": "https://codeload.github.com/micropython/micropython-lib/tar.gz/ee4bb8ff139e24c42b739935fbd8ec7c4d061e02",
+      "archive_sha256": "dda1a9e4e8388a13799df03aa5d8a3899d66f15d03032fdfedfaae173ffb06ab",
+      "regular_files": 564
+    },
+    {
+      "name": "ThrowTheSwitch/Unity",
+      "repository": "https://github.com/ThrowTheSwitch/Unity",
+      "commit": "bf560290f6020737eafaa8b5cbd2177c3956c03f",
+      "path": "Sources/ESP-IDF/components/unity/unity",
+      "archive_url": "https://codeload.github.com/ThrowTheSwitch/Unity/tar.gz/bf560290f6020737eafaa8b5cbd2177c3956c03f",
+      "archive_sha256": "441fae1f1e49f545a871508bf096f50c69e602a9df54ef8a8a4972f52389b77e",
+      "regular_files": 176
+    },
+    {
+      "name": "pellepl/spiffs",
+      "repository": "https://github.com/pellepl/spiffs",
+      "commit": "0dbb3f71c5f6fae3747a9d935372773762baf852",
+      "path": "Sources/ESP-IDF/components/spiffs/spiffs",
+      "archive_url": "https://codeload.github.com/pellepl/spiffs/tar.gz/0dbb3f71c5f6fae3747a9d935372773762baf852",
+      "archive_sha256": "ad2f6bd71024d8aa917b860fc0e1e242c10984219ed3460be09a375803a72517",
+      "regular_files": 36
+    },
+    {
+      "name": "protobuf-c/protobuf-c",
+      "repository": "https://github.com/protobuf-c/protobuf-c",
+      "commit": "abc67a11c6db271bedbb9f58be85d6f4e2ea8389",
+      "path": "Sources/ESP-IDF/components/protobuf-c/protobuf-c",
+      "archive_url": "https://codeload.github.com/protobuf-c/protobuf-c/tar.gz/abc67a11c6db271bedbb9f58be85d6f4e2ea8389",
+      "archive_sha256": "6f41b467d7b7242bb201f6466ba433f6eab943e2b6fc53bb753340632c9e45e2",
+      "regular_files": 83
+    },
+    {
+      "name": "espressif/esp-thread-lib",
+      "repository": "https://github.com/espressif/esp-thread-lib",
+      "commit": "ec0296c44f628b8e1d1cb78898fe62baa2f90d13",
+      "path": "Sources/ESP-IDF/components/openthread/lib",
+      "archive_url": "https://codeload.github.com/espressif/esp-thread-lib/tar.gz/ec0296c44f628b8e1d1cb78898fe62baa2f90d13",
+      "archive_sha256": "006963483fc9a7fbb09d4a53ba16619adf7eeccb795802c962fd1af246b101da",
+      "regular_files": 12
+    },
+    {
+      "name": "espressif/openthread",
+      "repository": "https://github.com/espressif/openthread",
+      "commit": "b945928d722177cd9caeab2e1025499628c101ef",
+      "path": "Sources/ESP-IDF/components/openthread/openthread",
+      "archive_url": "https://codeload.github.com/espressif/openthread/tar.gz/b945928d722177cd9caeab2e1025499628c101ef",
+      "archive_sha256": "a5b979a4ebb2756926bb0c0a1d0085751dedaa476d97169f49471b488a6c4dbf",
+      "regular_files": 3908
+    },
+    {
+      "name": "espressif/esp-mqtt",
+      "repository": "https://github.com/espressif/esp-mqtt",
+      "commit": "6af4446a48ea7fa54948edc4e62277ed70abb6e1",
+      "path": "Sources/ESP-IDF/components/mqtt/esp-mqtt",
+      "archive_url": "https://codeload.github.com/espressif/esp-mqtt/tar.gz/6af4446a48ea7fa54948edc4e62277ed70abb6e1",
+      "archive_sha256": "29166d1e9c00267e73f3bb525ce921ad4ab80eb349ba1203e3a4d1a402b5e7eb",
+      "regular_files": 51
+    },
+    {
+      "name": "espressif/mbedtls",
+      "repository": "https://github.com/espressif/mbedtls",
+      "commit": "b5d87eaa6748b7a6fa70593178c08b4480e9b71e",
+      "path": "Sources/ESP-IDF/components/mbedtls/mbedtls",
+      "archive_url": "https://codeload.github.com/espressif/mbedtls/tar.gz/b5d87eaa6748b7a6fa70593178c08b4480e9b71e",
+      "archive_sha256": "e6beb4ed862c83daba07f0d8091c0c361c843623b06674b2d8effe00e8e7aa9d",
+      "regular_files": 1877
+    },
+    {
+      "name": "espressif/esp-lwip",
+      "repository": "https://github.com/espressif/esp-lwip",
+      "commit": "ebabd6d79c120c5d4415755aab1d908d8b5fa372",
+      "path": "Sources/ESP-IDF/components/lwip/lwip",
+      "archive_url": "https://codeload.github.com/espressif/esp-lwip/tar.gz/ebabd6d79c120c5d4415755aab1d908d8b5fa372",
+      "archive_sha256": "609a4db4e65c7e67acad8325bc48ecd6913cf10c606ff8c3e8fc25589d9d2a1c",
+      "regular_files": 747
+    },
+    {
+      "name": "DaveGamble/cJSON",
+      "repository": "https://github.com/DaveGamble/cJSON",
+      "commit": "8f2beb57ddad1f94bed899790b00f46df893ccac",
+      "path": "Sources/ESP-IDF/components/json/cJSON",
+      "archive_url": "https://codeload.github.com/DaveGamble/cJSON/tar.gz/8f2beb57ddad1f94bed899790b00f46df893ccac",
+      "archive_sha256": "bc69a9e0796bb6e3434aeadbb49d3e37c4b7aec34fdb306e3f55b275ca7c6acb",
+      "regular_files": 216
+    },
+    {
+      "name": "espressif/tlsf",
+      "repository": "https://github.com/espressif/tlsf",
+      "commit": "2867f6883a12920b1969ff9624c0ab0e4185c2ce",
+      "path": "Sources/ESP-IDF/components/heap/tlsf",
+      "archive_url": "https://codeload.github.com/espressif/tlsf/tar.gz/2867f6883a12920b1969ff9624c0ab0e4185c2ce",
+      "archive_sha256": "a9dcb699a671b496bfb6a457bf750de25186a6a412f0602c6182ba67f248b536",
+      "regular_files": 8
+    },
+    {
+      "name": "espressif/esp32-wifi-lib",
+      "repository": "https://github.com/espressif/esp32-wifi-lib",
+      "commit": "c1f74dcf9151ae21b7a3850b90952796a2806358",
+      "path": "Sources/ESP-IDF/components/esp_wifi/lib",
+      "archive_url": "https://codeload.github.com/espressif/esp32-wifi-lib/tar.gz/c1f74dcf9151ae21b7a3850b90952796a2806358",
+      "archive_sha256": "0867b4d3cbb8d9bc800cd36aacaa2663ed01bae9e13c4316aed5e402981c695c",
+      "regular_files": 70
+    },
+    {
+      "name": "espressif/esp-phy-lib",
+      "repository": "https://github.com/espressif/esp-phy-lib",
+      "commit": "45ce2703403784b4c3983a52e453988d61eb0e9d",
+      "path": "Sources/ESP-IDF/components/esp_phy/lib",
+      "archive_url": "https://codeload.github.com/espressif/esp-phy-lib/tar.gz/45ce2703403784b4c3983a52e453988d61eb0e9d",
+      "archive_sha256": "fb1d68d49e5431e9e0c81abf7ed15a31f4401f964eaa9574d9c96da469d5eddf",
+      "regular_files": 46
+    },
+    {
+      "name": "espressif/esp-coex-lib",
+      "repository": "https://github.com/espressif/esp-coex-lib",
+      "commit": "2d68674e3d522fb025e4666217f9cc1ca2af9399",
+      "path": "Sources/ESP-IDF/components/esp_coex/lib",
+      "archive_url": "https://codeload.github.com/espressif/esp-coex-lib/tar.gz/2d68674e3d522fb025e4666217f9cc1ca2af9399",
+      "archive_sha256": "1a9f5e3a619527468603a1d5d98cddaffbeaeadf04ae42787485b7ed12d86098",
+      "regular_files": 16
+    },
+    {
+      "name": "ThrowTheSwitch/CMock",
+      "repository": "https://github.com/ThrowTheSwitch/CMock",
+      "commit": "eeecc49ce8af123cf8ad40efdb9673e37b56230f",
+      "path": "Sources/ESP-IDF/components/cmock/CMock",
+      "archive_url": "https://codeload.github.com/ThrowTheSwitch/CMock/tar.gz/eeecc49ce8af123cf8ad40efdb9673e37b56230f",
+      "archive_sha256": "b39e8cb357d44630e80800990d731108ffc517ca01632a08d7cc9e3fcd5408f3",
+      "regular_files": 252
+    },
+    {
+      "name": "throwtheswitch/cexception",
+      "repository": "https://github.com/throwtheswitch/cexception",
+      "commit": "71b47be7c950f1bf5f7e5303779fa99a16224bb6",
+      "path": "Sources/ESP-IDF/components/cmock/CMock/vendor/c_exception",
+      "archive_url": "https://codeload.github.com/throwtheswitch/cexception/tar.gz/71b47be7c950f1bf5f7e5303779fa99a16224bb6",
+      "archive_sha256": "d5d61af0cdbc1a9903cc110c9ad1b53011f58487705fa1e57ac36ebd4bda49af",
+      "regular_files": 16
+    },
+    {
+      "name": "throwtheswitch/unity",
+      "repository": "https://github.com/throwtheswitch/unity",
+      "commit": "cf949f45ca6d172a177b00da21310607b97bc7a7",
+      "path": "Sources/ESP-IDF/components/cmock/CMock/vendor/unity",
+      "archive_url": "https://codeload.github.com/throwtheswitch/unity/tar.gz/cf949f45ca6d172a177b00da21310607b97bc7a7",
+      "archive_sha256": "2d9b32a0a203874e8e97ad23bd5ba377d47e67d01fd20bb72b9588ecc90d040f",
+      "regular_files": 157
+    },
+    {
+      "name": "espressif/esp-nimble",
+      "repository": "https://github.com/espressif/esp-nimble",
+      "commit": "b45dcedcafb7888174c3567002c36b342ec0b723",
+      "path": "Sources/ESP-IDF/components/bt/host/nimble/nimble",
+      "archive_url": "https://codeload.github.com/espressif/esp-nimble/tar.gz/b45dcedcafb7888174c3567002c36b342ec0b723",
+      "archive_sha256": "4fc7767c4d93023488fa8e06dd52d6139df5f855d240417ae07a60023a4dd7e2",
+      "regular_files": 955
+    },
+    {
+      "name": "espressif/esp-ble-mesh-lib",
+      "repository": "https://github.com/espressif/esp-ble-mesh-lib",
+      "commit": "d9fe7de9a9eb2a4e4c51172b9c303f9d800706fa",
+      "path": "Sources/ESP-IDF/components/bt/esp_ble_mesh/lib/lib",
+      "archive_url": "https://codeload.github.com/espressif/esp-ble-mesh-lib/tar.gz/d9fe7de9a9eb2a4e4c51172b9c303f9d800706fa",
+      "archive_sha256": "5dbd3c9fd9086d2d56c8b2a4166533304ad379932db560df1ddc0ba9db45d5f0",
+      "regular_files": 9
+    },
+    {
+      "name": "espressif/esp32-bt-lib",
+      "repository": "https://github.com/espressif/esp32-bt-lib",
+      "commit": "185c7205db1f5082d070d00ea5dfdbb24c291d05",
+      "path": "Sources/ESP-IDF/components/bt/controller/lib_esp32",
+      "archive_url": "https://codeload.github.com/espressif/esp32-bt-lib/tar.gz/185c7205db1f5082d070d00ea5dfdbb24c291d05",
+      "archive_sha256": "3c60186c30f471cb341a037463472bda4f660d413884b8b6522c8657a95d159f",
+      "regular_files": 4
+    },
+    {
+      "name": "espressif/esp32c3-bt-lib",
+      "repository": "https://github.com/espressif/esp32c3-bt-lib",
+      "commit": "0c68809d62e432427de97b5294f6619307f62f40",
+      "path": "Sources/ESP-IDF/components/bt/controller/lib_esp32c3_family",
+      "archive_url": "https://codeload.github.com/espressif/esp32c3-bt-lib/tar.gz/0c68809d62e432427de97b5294f6619307f62f40",
+      "archive_sha256": "e204c9e3ef9007af2dee15bbf2b23a136320315fb86b9eadce2853a175a9eeca",
+      "regular_files": 7
+    },
+    {
+      "name": "espressif/esp32h2-bt-lib",
+      "repository": "https://github.com/espressif/esp32h2-bt-lib",
+      "commit": "a2ba40fae2462488f65efca042e5cecd9e018c7e",
+      "path": "Sources/ESP-IDF/components/bt/controller/lib_esp32h2/esp32h2-bt-lib",
+      "archive_url": "https://codeload.github.com/espressif/esp32h2-bt-lib/tar.gz/a2ba40fae2462488f65efca042e5cecd9e018c7e",
+      "archive_sha256": "eb88a1696322cac51a3a7235c4e9c935e1ac739fe51049b91d18f616f67afc7e",
+      "regular_files": 5
+    },
+    {
+      "name": "espressif/esp32c6-bt-lib",
+      "repository": "https://github.com/espressif/esp32c6-bt-lib",
+      "commit": "3655fcdaadb66bb4cd4d497c2dbd4e6e2a4cc696",
+      "path": "Sources/ESP-IDF/components/bt/controller/lib_esp32c6/esp32c6-bt-lib",
+      "archive_url": "https://codeload.github.com/espressif/esp32c6-bt-lib/tar.gz/3655fcdaadb66bb4cd4d497c2dbd4e6e2a4cc696",
+      "archive_sha256": "b07543116adf24dedbef64b2abe1a2251fe25ba8a23c12fc6de2f3dd5e3b203d",
+      "regular_files": 4
+    },
+    {
+      "name": "espressif/esp32c5-bt-lib",
+      "repository": "https://github.com/espressif/esp32c5-bt-lib",
+      "commit": "74cfecd57f600e5e00d175311893d241a6163cdd",
+      "path": "Sources/ESP-IDF/components/bt/controller/lib_esp32c5/esp32c5-bt-lib",
+      "archive_url": "https://codeload.github.com/espressif/esp32c5-bt-lib/tar.gz/74cfecd57f600e5e00d175311893d241a6163cdd",
+      "archive_sha256": "6fd8f3f3a72394a252e904604e9c0a0ef09932692ddcfb18cf32e906303d5e9b",
+      "regular_files": 3
+    },
+    {
+      "name": "espressif/esp32c2-bt-lib",
+      "repository": "https://github.com/espressif/esp32c2-bt-lib",
+      "commit": "ff958fab2f693e4b5974375cce525945fd238c4f",
+      "path": "Sources/ESP-IDF/components/bt/controller/lib_esp32c2/esp32c2-bt-lib",
+      "archive_url": "https://codeload.github.com/espressif/esp32c2-bt-lib/tar.gz/ff958fab2f693e4b5974375cce525945fd238c4f",
+      "archive_sha256": "682d22e17b329e39e1465efa5d0110b50ec9041587e54e14e23959cf5ab1107b",
+      "regular_files": 4
+    },
+    {
+      "name": "kmackay/micro-ecc",
+      "repository": "https://github.com/kmackay/micro-ecc",
+      "commit": "24c60e243580c7868f4334a1ba3123481fe1aa48",
+      "path": "Sources/ESP-IDF/components/bootloader/subproject/components/micro-ecc/micro-ecc",
+      "archive_url": "https://codeload.github.com/kmackay/micro-ecc/tar.gz/24c60e243580c7868f4334a1ba3123481fe1aa48",
+      "archive_sha256": "e3f5830c8a1c25d5db4d514b703616cc9384ebff7169b3503080ef97213b3d9c",
+      "regular_files": 31
+    },
+    {
+      "name": "cnadler86/esp32-camera",
+      "repository": "https://github.com/cnadler86/esp32-camera",
+      "commit": "32a7654a2477a0ce56bbae50a5548ebe48e22f71",
+      "path": "Sources/Camera-API/esp32-camera",
+      "archive_url": "https://codeload.github.com/cnadler86/esp32-camera/tar.gz/32a7654a2477a0ce56bbae50a5548ebe48e22f71",
+      "archive_sha256": "6d7fef8afd21c1b26c0962d62ef34ca6687f4461963bf8e15ec89e9347e3d4b9",
+      "regular_files": 107
+    }
+  ],
+  "source_links": [
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/build-esp32.sh",
+      "target": "build.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/build-esp32c2.sh",
+      "target": "build.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/build-esp32c3.sh",
+      "target": "build.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/build-esp32c6.sh",
+      "target": "build.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/build-esp32h2.sh",
+      "target": "build.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/build-esp32p4.sh",
+      "target": "build.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/build-esp32s2.sh",
+      "target": "build.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/build-esp32s3.sh",
+      "target": "build.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/run-esp32c2.sh",
+      "target": "run-esp32.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/run-esp32c3.sh",
+      "target": "run-esp32.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/run-esp32c6.sh",
+      "target": "run-esp32.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/run-esp32h2.sh",
+      "target": "run-esp32.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/run-esp32p4.sh",
+      "target": "run-esp32.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/run-esp32s2.sh",
+      "target": "run-esp32.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/examples/build_system/cmake/idf_as_lib/run-esp32s3.sh",
+      "target": "run-esp32.sh",
+      "materialized": true
+    },
+    {
+      "path": "Sources/ESP-IDF/components/bt/host/nimble/nimble/porting/npl/riot/include/npl_syscfg/npl_sycfg.h",
+      "target": "../syscfg/syscfg.h",
+      "materialized": true
+    }
+  ],
+  "prebuilt": {
+    "path": "Images/Camera-enabled/firmware.bin",
+    "sha256": "5431ca9809e3f9812851d0ffdcee090ffb25f5ccbfb00768e96b3d7f981e7be4",
+    "installed": true,
+    "note": "Upstream prebuilt; exact mp_jpeg revision not disclosed. Local recipe is pinned, not proven bit-identical.",
+    "installation_note": "Installed on connected N16R8 S3 with esptool flash size 16MB; OV3660 RGB565 + native JPEG tested."
+  }
+}
