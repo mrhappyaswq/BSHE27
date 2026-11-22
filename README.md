@@ -1,73 +1,23 @@
-# BSHE27
+# BSHE27 — GOOUUU ESP32-S3
 
-ESP32 MicroPython companion code for a Pixhawk running ArduCopter.
+The active firmware is now **C++ for one GOOUUU ESP32-S3-CAM N16R8**, connected directly to an ArduCopter Pixhawk. No MicroPython runtime or XIAO coprocessor is required.
 
-**Start here:** [Quick setup](SETUP.md).
+Start with the [C++ firmware guide](firmware/goouuu_esp32_s3/README.md) for wiring, build/upload, Wi-Fi, telemetry and missions.
 
-More detail: [board setup](docs/setup.md), [wiring](docs/hardware.md), and
-[missions](docs/missions.md).
+For a fresh clone, open this branch's `BSHE27.code-workspace` and install the recommended PlatformIO IDE extension. All application source and the USB viewer live in this checkout; no adjacent project or developer-specific tool paths are required. See [setup](SETUP.md).
 
-## Project map
+In VS Code, **Ctrl+Shift+B** runs **GOOUUU: Build and upload C++**. Disconnect the USB viewer first. Use **GOOUUU: Build** for compilation only and **GOOUUU: Monitor** for the console from Terminal → Run Task. Boot starts the camera dashboard and passive Pixhawk listener. Missions require explicit serial commands.
 
-```text
-device/                 Code uploaded to the ESP32
-  main.py               Passive heartbeat monitor on boot
-  config.py             Board pins, UART and mission settings
-  banshee/              Shared flight, MAVLink and vision code
-  missions/             Hover, GPS, circle and ArUco missions
-  diagnostics/          Telemetry check and marker-pose display
-tools/                  Desktop upload and monitor commands
-tests/                  Unit tests, reference checks and fixtures
-docs/                   Setup, wiring, missions and architecture
-reference/              Original desktop examples
-local/                  Preserved reports, scratch work, firmware and backups
-```
+Join Wi-Fi **BSHE27-Camera**, password **password**, then open **http://192.168.4.1/** for color video, snapshots, telemetry and live board-versus-browser speed measurements. For continuous wired viewing without Wi-Fi, connect the **OTG USB-C** port and run **GOOUUU: Open USB camera**, then click **Connect USB** in Edge/Chrome and select the Espressif device. The viewer shows live FPS, transfer timing, frame count and stale-video warnings.
 
-## Common actions in VS Code
-
-| Action | Where |
+| Location | Purpose |
 | --- | --- |
-| Upload board code | **Upload ESP32** or **Ctrl+Shift+B** |
-| View the boot monitor | **ESP32 Monitor** |
-| Check the UART link | **Check Pixhawk** |
-| Run desktop tests | **Terminal → Run Task → BANSHEE: Run host tests** |
-| Change board settings | [`device/config.py`](device/config.py) |
+| `firmware/goouuu_esp32_s3/` | Active C++ application, settings, missions and host tests |
+| [Feature migration audit](docs/cpp-migration.md) | Previous features, replacement behavior and limits |
+| `device/`, `tools/esp32.py`, `tests/` | Preserved legacy MicroPython code and tests |
+| `firmware/camera_web/`, `firmware/xiao_qr_camera/` | Preserved earlier C++ experiments |
+| `reference/`, `docs/history/`, `local/` | Original examples, older documentation and local backups |
 
-Uploading resets into the passive monitor. Flight missions start only through
-an explicit run command. The UART defaults are UART1, TX33, RX32 and 57600 baud;
-verify them against your board. ArUco missions require a camera provider.
+Older architecture, mission and hardware guides describe the legacy system; the active firmware guide supersedes their board pins and upload instructions. Existing uncommitted camera changes have been retained. The default VS Code tasks use the new C++ firmware; older tasks are labeled Legacy.
 
-## XIAO camera and QR landing
-
-**For the GOOUUU ESP32-S3-CAM N16R8 in the Amazon manual, start with
-[live camera webpage setup](firmware/camera_web/README.md).** That separate
-bench firmware uses the manual's pin map and hosts a local Wi-Fi live feed.
-It also includes an optional XIAO Sense build profile.
-
-This branch adds a **Seeed Studio XIAO ESP32-S3 Sense** as a wired camera
-processor alongside the existing WROOM-32S. It reads a landing QR onboard,
-reports its canonical corners, and supports saving bench photos to microSD.
-No Raspberry Pi, laptop, or Wi-Fi is needed during the QR mission.
-
-[`missions/qr_landing.py`](device/missions/qr_landing.py) centers the vehicle
-and aligns its heading before descent, using fresh captures of a QR whose
-payload is exactly `BSHE27-LAND`. It is an experimental GUIDED controller,
-not a flight-validated precision-landing product.
-
-**Start with [camera setup and bench checks](docs/xiao-qr-camera.md).**
-The XIAO runs separate [Arduino firmware](firmware/xiao_qr_camera/README.md);
-the existing WROOM retains the MicroPython flight code. Do not upload the
-WROOM configuration onto the XIAO.
-
-## Guides
-
-- [Setup and upload](docs/setup.md)
-- [Wiring and configuration](docs/hardware.md)
-- [Mission catalog and camera integration](docs/missions.md)
-- [Code architecture](docs/architecture.md)
-- [Development and tests](docs/development.md)
-- [Original source and history](reference/README.md)
-- Local reports, scratch files, firmware and backups remain in ignored `local/`.
-
-The tests use simulated hardware. Physical UART, camera and flight validation
-remain separate checks.
+The new firmware has build and simulated C++ protocol/mission checks. The C++ firmware was uploaded to COM4 and its passive serial status was confirmed. Physical Pixhawk communication, camera timing and flight still require validation.

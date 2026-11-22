@@ -11,3 +11,9 @@ secrets.py
 
 # Preserved machine-local reports, firmware, scratch files and backups
 local/
+**/.pio/
+
+# PlatformIO regenerates these with machine-specific toolchain paths
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/.browse.c_cpp.db*

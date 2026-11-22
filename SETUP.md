@@ -1,16 +1,17 @@
-# Quick setup — Windows / ESP32 WROOM
+# GOOUUU ESP32-S3 setup
 
-1. Install Python 3 and VS Code. Download this repository and open its folder in VS Code.
-2. Open **Terminal → New Terminal** and run:
+1. Clone this branch into any folder and open its `BSHE27.code-workspace` in desktop Visual Studio Code, or open the repository folder itself.
+2. Install the recommended **PlatformIO IDE** extension (`platformio.platformio-ide`) and let its initial setup finish. It installs/manages PlatformIO Core and downloads the pinned toolchain on the first build; internet is needed for that setup. No separate MicroPython runtime or Python virtual environment is needed to build.
+3. Connect the GOOUUU ESP32-S3-CAM N16R8 USB-to-UART port. Disconnect the USB video viewer and close serial monitors before uploading. Press **Ctrl+Shift+B** to build and upload. Use **GOOUUU: Build** for compilation only.
+4. Open **GOOUUU: Monitor** at 115200 baud.
+5. Join **BSHE27-Camera**, password **password**, and open **http://192.168.4.1/**.
 
-   ```powershell
-   py -3 -m venv .venv
-   .\.venv\Scripts\python.exe -m pip install mpremote esptool
-   ```
+Pixhawk UART: TX → GPIO42, RX ← GPIO41, common GND, 57600 baud, MAVLink, ArduCopter. Boot is passive; no mission starts automatically.
 
-3. Install MicroPython on the ESP32 once: [firmware steps](docs/setup.md#install-micropython-firmware-once).
-4. Connect the ESP32 by USB. Press **Ctrl+Shift+B** to upload.
-5. Select **Terminal → Run Task → ESP32: Monitor**, then press the board's **EN/RESET**. Expect `Alive` every five seconds.
-6. For Pixhawk UART: **TX → GPIO32, RX → GPIO33, GND → GND**, **57600 baud**. Verify [TELEM pinout/voltage](docs/hardware.md). Expect `HEARTBEAT` messages.
+See the [complete C++ firmware guide](firmware/goouuu_esp32_s3/README.md) for wiring, mission commands, limitations and bench validation.
 
-Keep propellers removed during bench setup.
+The VS Code tasks use PlatformIO's native task provider. They contain no developer-specific executable paths, COM port numbers or sibling-folder references. Firmware source, settings, viewer HTML and helper scripts are in this repository. `.pio/` and PlatformIO-generated editor/debug files are machine-local and ignored by Git.
+
+Outside VS Code, install PlatformIO Core and run `pio run` or `pio run -t upload` from this checkout. Optional Python diagnostics use `python -m pip install -r requirements-dev.txt`; these packages are not firmware build prerequisites.
+
+For wired video, use the native USB-C socket and **GOOUUU: Open USB camera**, then **Connect USB** in Edge/Chrome. Choose the Espressif USB JTAG/serial device. The TTL/CH340 port remains for uploads and the console.

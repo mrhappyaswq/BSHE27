@@ -2,19 +2,20 @@
   "VsCodeTaskButtons.showCounter": false,
   "VsCodeTaskButtons.tasks": [
     {
-      "label": "$(cloud-upload) Upload ESP32",
-      "task": "ESP32: Upload and restart",
-      "tooltip": "Copy MicroPython files to ESP32 and restart"
+      "label": "$(play) Build + upload C++",
+      "task": "GOOUUU: Build and upload C++"
     },
     {
-      "label": "$(terminal) ESP32 Monitor",
-      "task": "ESP32: Monitor",
-      "tooltip": "Open the MicroPython serial monitor"
+      "label": "$(tools) Build only",
+      "task": "GOOUUU: Build"
     },
     {
-      "label": "$(pulse) Check Pixhawk",
-      "task": "ESP32: Telemetry check",
-      "tooltip": "Check UART and telemetry without arming or movement"
+      "label": "$(terminal) Monitor",
+      "task": "GOOUUU: Monitor"
+    },
+    {
+      "label": "$(device-camera-video) USB camera",
+      "task": "GOOUUU: Open USB camera"
     }
   ],
   "python.analysis.extraPaths": [
@@ -24,11 +25,14 @@
     "**/__pycache__": true,
     "**/*.pyc": true,
     ".venv": true,
-    ".pytest_cache": true
+    ".pytest_cache": true,
+    "**/.pio": true
   },
   "search.exclude": {
     "local/**": true,
     ".venv/**": true,
-    "**/__pycache__/**": true
-  }
+    "**/__pycache__/**": true,
+    "**/.pio/**": true
+  },
+  "platformio-ide.defaultProjectEnv": "goouuu_esp32_s3"
 }

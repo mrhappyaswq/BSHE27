@@ -1,0 +1,3 @@
+# The standalone and embedded viewer must stay byte-identical on every OS.
+/firmware/goouuu_esp32_s3/data/viewer.html text eol=lf
+/firmware/goouuu_esp32_s3/include/dashboard_page.h text eol=lf

@@ -2,102 +2,75 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "ESP32: Upload and restart",
-      "type": "process",
-      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
-      "args": [
-        "tools/esp32.py",
-        "upload",
-        "--port",
-        "auto"
+      "label": "GOOUUU: Build",
+      "type": "PlatformIO",
+      "task": "Build",
+      "problemMatcher": [
+        "$platformio"
       ],
-      "options": {
-        "cwd": "${workspaceFolder}"
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "GOOUUU: Build and upload C++",
+      "type": "PlatformIO",
+      "task": "Upload",
+      "problemMatcher": [
+        "$platformio"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
       },
       "group": {
         "kind": "build",
         "isDefault": true
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
       }
     },
     {
-      "label": "ESP32: Monitor",
-      "type": "process",
-      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
-      "args": [
-        "tools/esp32.py",
-        "monitor",
-        "--port",
-        "auto"
+      "label": "GOOUUU: Upload",
+      "dependsOn": [
+        "GOOUUU: Build and upload C++"
       ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": [],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "GOOUUU: Monitor",
+      "type": "PlatformIO",
+      "task": "Monitor",
+      "problemMatcher": [
+        "$platformio"
+      ],
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
       }
     },
     {
-      "label": "ESP32: List USB devices",
+      "label": "GOOUUU: Open USB camera",
       "type": "process",
-      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "command": "xdg-open",
       "args": [
-        "tools/esp32.py",
-        "list"
+        "${workspaceFolder}/firmware/goouuu_esp32_s3/data/viewer.html"
       ],
+      "windows": {
+        "command": "powershell.exe",
+        "args": [
+          "-NoProfile",
+          "-File",
+          "${workspaceFolder}/tools/open_wired_viewer.ps1"
+        ]
+      },
+      "osx": {
+        "command": "open"
+      },
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
-    },
-    {
-      "label": "ESP32: Telemetry check",
-      "type": "process",
-      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
-      "args": [
-        "tools/esp32.py",
-        "check",
-        "--port",
-        "auto"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "BANSHEE: Run host tests",
-      "type": "process",
-      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
-      "args": [
-        "-m",
-        "unittest",
-        "discover",
-        "-s",
-        "tests",
-        "-t",
-        ".",
-        "-v"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
     }
   ]
 }

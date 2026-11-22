@@ -1,2 +1,3 @@
-# Optional desktop protocol interoperability tests. Never upload to the ESP32.
+# Optional desktop diagnostics and protocol tests. Not required to build firmware.
+pyserial==3.5
 pymavlink==2.4.50
