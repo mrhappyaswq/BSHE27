@@ -4,6 +4,8 @@ This project runs the camera and mission helper on your GOOUUU ESP32-S3 board. T
 
 **First time? Read [Setup](Docs/Setup%20Guide.md).** For a guide to every folder, read the [Project Map](Docs/Project%20Map.md).
 
+The active GOOUUU C++ project is backed up on GitHub's `main` branch. The previous `main` is preserved as `deprecated/main-before-goouuu-2026-11-23`; `feature/xiao-s3-qr-landing` is older XIAO work. Saving a file or committing locally does not upload it: use **Commit**, then **Sync Changes** in VS Code. See [GitHub backup](Docs/Editing%20and%20Testing.md#github-backup).
+
 | Folder | What is inside |
 | --- | --- |
 | [Code](Code/) | The board program and its camera web page |

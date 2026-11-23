@@ -2,6 +2,18 @@
 /Build Tools/
 /Saved Results/
 
+# Retained MicroPython project and firmware sources (not the active C++ app).
+# Keep these local files; do not stage the downloaded firmware trees.
+/Build Stuff/
+/Guides/
+/Code/apps/
+/Code/banshee/
+/Code/config.py
+/Code/diagnostics/
+/Code/main.py
+/Code/missions/
+/Code/web/
+
 # Temporary Python files and private settings.
 __pycache__/
 *.py[cod]

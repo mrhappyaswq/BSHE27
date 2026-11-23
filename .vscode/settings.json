@@ -29,10 +29,19 @@
     "**/.pio": true
   },
   "search.exclude": {
+    "Build Stuff/**": true,
+    "Guides/**": true,
     "Build Tools/**": true,
     "Saved Results/**": true,
     ".venv/**": true,
     "**/__pycache__/**": true
   },
+  "files.watcherExclude": {
+    "**/Build Stuff/**": true,
+    "**/Build Tools/**": true,
+    "**/Saved Results/**": true,
+    "**/.pio/**": true
+  },
+  "git.autofetch": true,
   "platformio-ide.defaultProjectEnv": "goouuu_esp32_s3"
 }

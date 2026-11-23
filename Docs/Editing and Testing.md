@@ -2,6 +2,25 @@
 
 Run commands from the project root. Put board changes in the matching **Code** feature folder. Put computer helper programs in **Helpers**.
 
+## GitHub backup
+
+Use `main` for the active GOOUUU C++ project. In VS Code, confirm the bottom-left branch name is `main`, save your files, review Source Control changes, enter a message and **Commit**, then **Sync Changes**. A commit only saves history on this computer; the push performed by Sync sends it to GitHub. Automatic fetching checks for remote updates but does not upload your changes.
+
+The equivalent terminal commands are:
+
+```powershell
+git status
+git add --all
+git commit -m "Describe your changes"
+git push
+```
+
+Review `git status` before staging. After pushing, `git status -sb` should show `main...origin/main` without ahead/behind counts or changed files. On GitHub, select `main` to see the current code.
+
+The old GitHub `main` is retained as `deprecated/main-before-goouuu-2026-11-23`. The existing `feature/xiao-s3-qr-landing` branch preserves older XIAO work. Neither is the active application.
+
+The previous MicroPython folders (`Build Stuff`, `Guides` and the old Python application paths in `Code`) remain on this computer and are ignored by Git. They are not included in the current C++ GitHub backup. The former assistant instructions are saved in `Build Stuff/local/AGENTS-micropython-before-cpp-2026-11-23.md`. Keep the ignore rules: the retained firmware tree contains tens of thousands of files and previously stalled VS Code's Git scans. Build tools and saved test results also remain local. See [Project Map](Project%20Map.md) for the active folders.
+
 ## Build the board program
 
 Use **GOOUUU: Build** in VS Code, or `pio run`. This compiles without uploading. **Ctrl+Shift+B** instead builds and uploads.
