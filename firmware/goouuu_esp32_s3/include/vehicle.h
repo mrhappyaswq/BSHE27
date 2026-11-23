@@ -5,7 +5,7 @@
 struct Vehicle {
   HardwareSerial uart{1}; wire::Parser parser;
   uint32_t heartbeatAt=0, positionAt=0, gpsAt=0, statusAt=0;
-  bool haveHeartbeat=false, havePosition=false, haveGps=false, haveStatus=false;
+  bool haveHeartbeat=false, havePosition=false, haveGps=false, haveStatus=false, batteryKnown=false;
   uint32_t mode=0, present=0, enabled=0, healthy=0, bytes=0, heartbeats=0;
   uint8_t baseMode=0, state=0, fix=0, satellites=0, sequence=0;
   int32_t lat=0, lon=0; float altitude=0, battery=0;
@@ -38,7 +38,8 @@ struct Vehicle {
           heartbeatAt=now; haveHeartbeat=true; ++heartbeats; break;
         }
         case 1: present=wire::get<uint32_t>(p,0); enabled=wire::get<uint32_t>(p,4);
-          healthy=wire::get<uint32_t>(p,8); battery=wire::get<uint16_t>(p,14)*0.001f;
+          healthy=wire::get<uint32_t>(p,8); batteryKnown=wire::get<uint16_t>(p,14)!=65535;
+          battery=batteryKnown?wire::get<uint16_t>(p,14)*0.001f:0;
           statusAt=now; haveStatus=true; break;
         case 24: fix=p[28]; satellites=p[29]; gpsAt=now; haveGps=true; break;
         case 33: lat=wire::get<int32_t>(p,4); lon=wire::get<int32_t>(p,8);

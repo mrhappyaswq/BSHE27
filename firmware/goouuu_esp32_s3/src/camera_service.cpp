@@ -2,6 +2,7 @@
 #include "camera_frame.h"
 #include "settings.h"
 #include <WiFi.h>
+#include <esp_wifi.h>
 #include <esp_camera.h>
 #include <esp_http_server.h>
 #include <esp_timer.h>
@@ -77,6 +78,10 @@ static esp_err_t capture(httpd_req_t* r) {
   if(dashboard::flying() || error) return unavailable(r);
   auto f=nextFrame(0); if(!f) return unavailable(r);
   httpd_resp_set_type(r,"image/jpeg"); httpd_resp_set_hdr(r,"Cache-Control","no-store");
+  httpd_resp_set_hdr(r,"Access-Control-Allow-Origin","*");
+  httpd_resp_set_hdr(r,"Access-Control-Expose-Headers","X-Frame-Id, X-Frame-Age-Ms");
+  char id[16],age[16];snprintf(id,sizeof(id),"%lu",(unsigned long)f->id);snprintf(age,sizeof(age),"%lu",(unsigned long)(millis()-f->capturedMs));
+  httpd_resp_set_hdr(r,"X-Frame-Id",id);httpd_resp_set_hdr(r,"X-Frame-Age-Ms",age);
   return httpd_resp_send(r,reinterpret_cast<const char*>(f->jpeg),f->size);
 }
 static esp_err_t frame(httpd_req_t* r) {
@@ -135,6 +140,8 @@ void begin() {
     if(!error && xTaskCreatePinnedToCore(worker,"Camera",4096,nullptr,1,nullptr,0)!=pdPASS) error="Camera task allocation failed";
   }
   WiFi.mode(WIFI_AP); WiFi.setSleep(false);
+  if(settings::WifiCompatibility && esp_wifi_set_protocol(WIFI_IF_AP,WIFI_PROTOCOL_11B|WIFI_PROTOCOL_11G)!=ESP_OK)
+    Serial.println("Wi-Fi compatibility profile could not be applied");
   if(!WiFi.softAP(settings::Ssid,settings::Password,1,false,2)) { Serial.println("Wi-Fi AP failed"); return; }
   dashboard::begin(capture,stream,frame);
 }

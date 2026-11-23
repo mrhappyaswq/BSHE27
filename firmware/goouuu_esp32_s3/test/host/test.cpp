@@ -4,6 +4,7 @@
 #include "camera_frame.h"
 #include "vectors.h"
 #include "exposure_math.h"
+#include "telemetry.h"
 uint32_t testNow=1000;
 HardwareSerial Serial(0);
 namespace camera_service { const char* error=nullptr; }
@@ -17,6 +18,21 @@ void fresh(Vehicle& v,bool armed=false,uint32_t mode=0) {
   v.present=v.enabled=v.healthy=1UL<<28;
 }
 int main() {
+  {
+    Vehicle v;char json[1536];
+    telemetryJson(v,testNow,1,false,0,"Passive monitor",nullptr,27.8f,json,sizeof(json));
+    assert(strstr(json,"\"heartbeat_seen\":false") && strstr(json,"\"armed\":null") && strstr(json,"\"battery_v\":null"));
+    fresh(v);v.altitude=1.25f;v.batteryKnown=true;v.battery=12.3f;
+    telemetryJson(v,testNow,2,false,0,"Passive monitor",nullptr,27.8f,json,sizeof(json));
+    assert(strstr(json,"\"armed\":false") && strstr(json,"\"relative_altitude_m\":1.250") && strstr(json,"\"battery_v\":12.300"));
+    telemetryJson(v,testNow+3001,3,false,0,"Passive monitor",nullptr,27.8f,json,sizeof(json));
+    assert(strstr(json,"\"linked\":true") && strstr(json,"\"relative_altitude_m\":null") && strstr(json,"\"battery_v\":null"));
+    telemetryJson(v,testNow+5001,4,false,0,"Passive monitor",nullptr,27.8f,json,sizeof(json));
+    assert(strstr(json,"\"heartbeat_seen\":true") && strstr(json,"\"linked\":false") && strstr(json,"\"mode\":null"));
+    v.heartbeatAt=v.positionAt=v.gpsAt=v.statusAt=0xfffffff0;
+    telemetryJson(v,16,5,false,0,"Passive monitor",nullptr,0,json,sizeof(json));
+    assert(strstr(json,"\"linked\":true") && strstr(json,"\"position_age_ms\":32"));
+  }
   {
     double row=exposure_math::rowUs(20000000,0,30,0x11,0x30,1600);
     assert(fabs(row-32)<0.0001); // 50 MHz SYSCLK, 1600 clocks per row.

@@ -7,6 +7,7 @@
 #include "wired_camera.h"
 #include "camera_frame.h"
 #include "camera_controls.h"
+#include "telemetry.h"
 Vehicle vehicle;
 Mission mission(vehicle);
 static char input[96]; static size_t inputSize=0; static bool overflow=false;
@@ -31,6 +32,7 @@ static void command(const String& cmd) {
     Serial.printf("Camera: %s\n%s\n",camera_service::error?camera_service::error:"running",cameraStats);
     char usbStats[192]; wired_camera::statsJson(usbStats,sizeof(usbStats)); Serial.printf("USB: %s\n",usbStats);
     char controls[448];camera_controls::status(controls,sizeof(controls));Serial.printf("Exposure: %s\n",controls);
+    char wifiStats[256];dashboard::statsJson(wifiStats,sizeof(wifiStats));Serial.printf("Wi-Fi: %s\n",wifiStats);
   } else Serial.println("status | telemetry | photo | abort | run hover/hover_gps/move_gps/circle/aruco_landing/aruco_move_gps | marker cx cy width height");
 }
 void setup() {
@@ -46,12 +48,11 @@ void loop() {
     else if(c!='\r') { if(inputSize<sizeof(input)-1 && !overflow) input[inputSize++]=c; else overflow=true; }
   }
   static uint32_t report=0; if(millis()-report>=250) {
-    report=millis(); char json[768];
-    snprintf(json,sizeof(json),"{\"board\":\"GOOUUU ESP32-S3\",\"linked\":%s,\"armed\":%s,\"mode\":%lu,\"position_fresh\":%s,\"relative_altitude_m\":%.3f,\"gps_fix\":%u,\"satellites\":%u,\"battery_v\":%.3f,\"uart_bytes\":%lu,\"heartbeats\":%lu,\"bad_crc\":%lu,\"signed_rejected\":%lu,\"camera_error\":\"%s\",\"vision_backend\":\"none\",\"mission_active\":%s,\"phase\":%d,\"message\":\"%s\"}",
-      vehicle.linked()?"true":"false",vehicle.armed()?"true":"false",(unsigned long)vehicle.mode,vehicle.positioned()?"true":"false",vehicle.altitude,vehicle.fix,vehicle.satellites,vehicle.battery,
-      (unsigned long)vehicle.bytes,(unsigned long)vehicle.heartbeats,(unsigned long)vehicle.parser.bad,(unsigned long)vehicle.parser.signedFrames,
-      camera_service::error?camera_service::error:"",mission.running()?"true":"false",int(mission.phase),mission.message.c_str());
-    dashboard::publish(json,mission.running());
+    report=millis();static uint32_t sampleSequence=0;char json[1536];
+    auto frame=camera_service::latestFrame();
+    float fps=frame && uint32_t(millis()-frame->capturedMs)<2000 ? frame->boardFps:0;
+    telemetryJson(vehicle,millis(),++sampleSequence,mission.running(),int(mission.phase),mission.message.c_str(),camera_service::error,fps,json,sizeof(json));
+    dashboard::publish(json,mission.running(),vehicle.heartbeatAt,vehicle.haveHeartbeat);
     uint8_t r=0,g=0,b=0; bool on=millis()%2000<200;
     if(camera_service::error || (vehicle.haveHeartbeat && !vehicle.linked())) r=20;
     else if(mission.running()) b=20;

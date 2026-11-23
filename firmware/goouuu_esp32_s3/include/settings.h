@@ -4,6 +4,8 @@ namespace settings {
 constexpr char Board[] = "GOOUUU ESP32-S3-CAM N16R8";
 constexpr char Ssid[] = "BSHE27-Camera";
 constexpr char Password[] = "password";
+// Conservative radio profile for the small telemetry messages; excludes 802.11n.
+constexpr bool WifiCompatibility = true;
 constexpr int Rx = 42, Tx = 41, Led = 48;
 constexpr uint32_t Baud = 57600;
 constexpr uint8_t System = 1, Component = 1, Source = 245, SourceComponent = 191;

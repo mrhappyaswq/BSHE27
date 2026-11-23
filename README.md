@@ -8,7 +8,7 @@ For a fresh clone, open this branch's `BSHE27.code-workspace` and install the re
 
 In VS Code, **Ctrl+Shift+B** runs **GOOUUU: Build and upload C++**. Disconnect the USB viewer first. Use **GOOUUU: Build** for compilation only and **GOOUUU: Monitor** for the console from Terminal → Run Task. Boot starts the camera dashboard and passive Pixhawk listener. Missions require explicit serial commands.
 
-Join Wi-Fi **BSHE27-Camera**, password **password**, then open **http://192.168.4.1/** for color video, snapshots, telemetry and live board-versus-browser speed measurements. For continuous wired viewing without Wi-Fi, connect the **OTG USB-C** port and run **GOOUUU: Open USB camera**, then click **Connect USB** in Edge/Chrome and select the Espressif device. The viewer shows live FPS, transfer timing, frame count and stale-video warnings.
+Join Wi-Fi **BSHE27-Camera**, password **password**, then open **http://192.168.4.1/** for a telemetry-only latency test, heartbeat freshness, optional camera video, one-shot snapshots, and percentage/multiplier comparisons of latency and payload size. For continuous wired viewing without Wi-Fi, connect the **OTG USB-C** port and run **GOOUUU: Open USB camera**, then click **Connect USB** in Edge/Chrome and select the Espressif device. The viewer shows live FPS, transfer timing, frame count and stale-video warnings.
 
 | Location | Purpose |
 | --- | --- |
