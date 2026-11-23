@@ -54,14 +54,14 @@
       "type": "process",
       "command": "xdg-open",
       "args": [
-        "${workspaceFolder}/firmware/goouuu_esp32_s3/data/viewer.html"
+        "${workspaceFolder}/Code/Web Server/viewer.html"
       ],
       "windows": {
         "command": "powershell.exe",
         "args": [
           "-NoProfile",
           "-File",
-          "${workspaceFolder}/tools/open_wired_viewer.ps1"
+          "${workspaceFolder}/Helpers/Open Camera.ps1"
         ]
       },
       "osx": {

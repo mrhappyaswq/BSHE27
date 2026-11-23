@@ -1,23 +1,30 @@
-# BSHE27 — GOOUUU ESP32-S3
+# BSHE27 - Start here
 
-The active firmware is now **C++ for one GOOUUU ESP32-S3-CAM N16R8**, connected directly to an ArduCopter Pixhawk. No MicroPython runtime or XIAO coprocessor is required.
+This project runs the camera and mission helper on your GOOUUU ESP32-S3 board. The Pixhawk controls the aircraft. The board program is C++; the camera page uses JavaScript. Python helpers run on your computer.
 
-Start with the [C++ firmware guide](firmware/goouuu_esp32_s3/README.md) for wiring, build/upload, Wi-Fi, telemetry and missions.
+**First time? Read [Setup](Docs/Setup%20Guide.md).** For a guide to every folder, read the [Project Map](Docs/Project%20Map.md).
 
-For a fresh clone, open this branch's `BSHE27.code-workspace` and install the recommended PlatformIO IDE extension. All application source and the USB viewer live in this checkout; no adjacent project or developer-specific tool paths are required. See [setup](SETUP.md).
-
-In VS Code, **Ctrl+Shift+B** runs **GOOUUU: Build and upload C++**. Disconnect the USB viewer first. Use **GOOUUU: Build** for compilation only and **GOOUUU: Monitor** for the console from Terminal → Run Task. Boot starts the camera dashboard and passive Pixhawk listener. Missions require explicit serial commands.
-
-Join Wi-Fi **BSHE27-Camera**, password **password**, then open **http://192.168.4.1/** for a telemetry-only latency test, heartbeat freshness, optional camera video, one-shot snapshots, and percentage/multiplier comparisons of latency and payload size. For continuous wired viewing without Wi-Fi, connect the **OTG USB-C** port and run **GOOUUU: Open USB camera**, then click **Connect USB** in Edge/Chrome and select the Espressif device. The viewer now includes an **onboard ArUco 7×7 ID 0 bench preview** with frame-matched distance/orientation and proposed movement commands. Replace the clearly marked dimensions/calibration/mounting placeholders in `firmware/goouuu_esp32_s3/include/aruco_config.h`; the preview sends no commands to the flight controller. Uncheck the overlay for raw video. The viewer also has a simulated-altitude slider that switches real resolution/JPEG quality and publishes faster low-altitude frames or slower detailed high-altitude frames.
-
-| Location | Purpose |
+| Folder | What is inside |
 | --- | --- |
-| `firmware/goouuu_esp32_s3/` | Active C++ application, settings, missions and host tests |
-| [Feature migration audit](docs/cpp-migration.md) | Previous features, replacement behavior and limits |
-| `device/`, `tools/esp32.py`, `tests/` | Preserved legacy MicroPython code and tests |
-| `firmware/camera_web/`, `firmware/xiao_qr_camera/` | Preserved earlier C++ experiments |
-| `reference/`, `docs/history/`, `local/` | Original examples, older documentation and local backups |
+| [Code](Code/) | The board program and its camera web page |
+| [Docs](Docs/) | Setup, wiring, instructions and the Python package list |
+| [Helpers](Helpers/) | Small programs you run on your computer to open or check the camera |
+| [Checks](Checks/) | Programs that check whether the code and web page work |
+| Saved Results | Pictures, measurements and reports saved on this computer |
+| Build Tools | Downloaded tools and temporary files used to make the board program |
 
-Older architecture, mission and hardware guides describe the legacy system; the active firmware guide supersedes their board pins and upload instructions. Existing uncommitted camera changes have been retained. The default VS Code tasks use the new C++ firmware; older tasks are labeled Legacy.
+Inside **Code**:
 
-The new firmware has build and simulated C++ protocol/mission checks. The C++ firmware was uploaded to COM4 and its passive serial status was confirmed. Physical Pixhawk communication, camera timing and flight still require validation.
+- **main.cpp** starts the program and keeps it running.
+- **Camera** takes pictures, sends USB video and changes camera settings.
+- **ArUco** finds the square marker and estimates where it is.
+- **Web Server** sends the camera page and information to your browser.
+- **Pixhawk Communication** sends and reads MAVLink messages.
+- **Flight Missions** holds the hover, move, circle and landing steps.
+- **Board Settings** holds the board's pins, Wi-Fi name and other settings.
+
+Open `BSHE27.code-workspace` in VS Code. **Ctrl+Shift+B builds and uploads**; use **GOOUUU: Build** to build only. Disconnect the camera viewer before uploading.
+
+The board starts listening and running its camera services at boot. Flight missions need explicit serial commands. The ArUco display is a bench preview; it does not steer the aircraft. See the [mission guide](Docs/Missions%20Guide.md) and [camera guide](Docs/Camera%20Guide.md).
+
+The few files that must stay at the project root are explained in the Project Map. Git and editor settings are hidden from the normal VS Code file view.

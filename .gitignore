@@ -1,19 +1,17 @@
-.venv/
+# Downloaded tools, compiled programs and personal test results.
+/Build Tools/
+/Saved Results/
+
+# Temporary Python files and private settings.
 __pycache__/
 *.py[cod]
+.venv/
 .pytest_cache/
-*.log
 .env
 secrets.py
 
-# Optional local protocol-verification dependencies
-.verification/
-
-# Preserved machine-local reports, firmware, scratch files and backups
-local/
-**/.pio/
-
-# PlatformIO regenerates these with machine-specific toolchain paths
+# Editor files generated for this computer.
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/.browse.c_cpp.db*
+**/.pio/

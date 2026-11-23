@@ -18,21 +18,21 @@
       "task": "GOOUUU: Open USB camera"
     }
   ],
-  "python.analysis.extraPaths": [
-    "${workspaceFolder}/device"
-  ],
   "files.exclude": {
     "**/__pycache__": true,
     "**/*.pyc": true,
     ".venv": true,
     ".pytest_cache": true,
+    ".git": true,
+    ".gitignore": true,
+    ".vscode": true,
     "**/.pio": true
   },
   "search.exclude": {
-    "local/**": true,
+    "Build Tools/**": true,
+    "Saved Results/**": true,
     ".venv/**": true,
-    "**/__pycache__/**": true,
-    "**/.pio/**": true
+    "**/__pycache__/**": true
   },
   "platformio-ide.defaultProjectEnv": "goouuu_esp32_s3"
 }
