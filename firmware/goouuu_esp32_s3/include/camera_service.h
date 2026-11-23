@@ -5,4 +5,5 @@ namespace camera_service {
 extern const char* error;
 void begin();
 bool photo();
+bool simulateAltitude(bool enabled,uint16_t centimeters,char* out,size_t size);
 }

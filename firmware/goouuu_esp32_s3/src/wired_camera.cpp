@@ -8,6 +8,7 @@
 #include "camera_service.h"
 #include "camera_controls.h"
 #include "dashboard.h"
+#include "aruco_service.h"
 namespace wired_camera {
 static std::atomic<uint32_t> received{0},requests{0},sentBytes{0},failures{0};
 static bool ready=false;
@@ -71,7 +72,7 @@ static void worker(void*) {
       ++received;
       if(!reading) {
         if(byte=='S') settingsReply(false);
-        else if(byte=='F' || byte=='C') {operation=byte;expected=byte=='F'?4:7;reading=true;used=0;requestAt=millis();}
+        else if(byte=='F' || byte=='V' || byte=='C'||byte=='A') {operation=byte;expected=byte=='C'?7:byte=='A'?3:4;reading=true;used=0;requestAt=millis();}
       }
       else {
         request[used++]=byte;
@@ -79,15 +80,29 @@ static void worker(void*) {
           ++requests;
           reading=false;
           if(operation=='C') {settingsReply(true);continue;}
+          if(operation=='A'){
+            char json[320];if(request[0]>1)snprintf(json,sizeof(json),"{\"ok\":false,\"error\":\"Invalid simulation mode\"}");
+            else camera_service::simulateAltitude(request[0]!=0,wire::get<uint16_t>(request,1),json,sizeof(json));
+            uint8_t prefix[8];memcpy(prefix,"BSP1",4);wire::put<uint32_t>(prefix,4,strlen(json));
+            if(send(prefix,sizeof(prefix)))send(reinterpret_cast<const uint8_t*>(json),strlen(json));continue;
+          }
           uint32_t after=wire::get<uint32_t>(request,0),started=millis();
           camera_service::FramePtr frame;
+          aruco_service::ResultPtr vision;
           while(!dashboard::flying() && !camera_service::error && millis()-started<1000) {
-            frame=camera_service::latestFrame();
+            if(operation=='V'){vision=aruco_service::latest();frame=vision?vision->frame:camera_service::FramePtr{};}
+            else frame=camera_service::latestFrame();
             if(frame && frame->id!=after && millis()-frame->capturedMs<2000) break;
             frame.reset(); vTaskDelay(pdMS_TO_TICKS(5));
           }
           uint32_t flags=dashboard::flying()?1:!frame?2:0;
           if(flags) frame.reset();
+          if(operation=='V') {
+            // Results precede their exact analyzed frame. F/BSC1 stays compatible.
+            char json[2304];aruco_service::json(json,sizeof(json),flags?nullptr:vision.get(),millis());
+            uint8_t prefix[8];memcpy(prefix,"BSV1",4);wire::put<uint32_t>(prefix,4,strlen(json));
+            if(!send(prefix,sizeof(prefix))||!send(reinterpret_cast<const uint8_t*>(json),strlen(json)))continue;
+          }
           uint8_t header[camera_service::HeaderSize];
           camera_service::frameHeader(header,frame.get(),millis(),flags);
           if(send(header,sizeof(header)) && frame) send(frame->jpeg,frame->size);
@@ -105,7 +120,7 @@ void begin() {
   // RX keeps its interrupt-driven queue; TX belongs exclusively to worker().
   usb_serial_jtag_ll_disable_intr_mask(USB_SERIAL_JTAG_INTR_SERIAL_IN_EMPTY);
   usb_serial_jtag_ll_txfifo_flush();
-  if(xTaskCreatePinnedToCore(worker,"USB camera",4096,nullptr,1,nullptr,1)!=pdPASS) {
+  if(xTaskCreatePinnedToCore(worker,"USB camera",8192,nullptr,1,nullptr,1)!=pdPASS) {
     Serial.println("Native USB viewer task failed");
     usb_serial_jtag_driver_uninstall();
   } else { ready=true; Serial.println("Native USB camera ready (OTG socket)"); }

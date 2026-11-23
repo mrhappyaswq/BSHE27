@@ -12,6 +12,6 @@ try {
   $compile = '"{0}" >nul && cl /nologo /EHsc /std:c++17 /I"{1}/test/host" /I"{1}/include" "{1}/test/host/test.cpp" /Fe:tests.exe /Fo:tests.obj' -f $vcvars, $projectRoot
   & cmd.exe /d /s /c $compile
   if ($LASTEXITCODE -ne 0) { throw 'C++ compilation failed' }
-  & ./tests.exe
+  & ./tests.exe (Join-Path $projectRoot 'test/host/fixtures/aruco-real-usb-frame.pgm')
   if ($LASTEXITCODE -ne 0) { throw 'C++ tests failed' }
 } finally { Pop-Location }

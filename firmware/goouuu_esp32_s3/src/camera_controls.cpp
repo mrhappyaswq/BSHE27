@@ -54,6 +54,26 @@ bool apply(bool manual,uint32_t us,uint16_t gain16,char* out,size_t size) {
   bool ok=rc ? fail(out,size,"Sensor write failed; auto restore attempted") : snapshot(s,out,size);
   xSemaphoreGive(sensorLock);return ok;
 }
+bool format(uint16_t width,uint16_t height,uint8_t quality) {
+  if(dashboard::flying()||quality>63)return false;
+  framesize_t frameSize=width==320&&height==240?FRAMESIZE_QVGA:width==640&&height==480?FRAMESIZE_VGA:width==1024&&height==768?FRAMESIZE_XGA:FRAMESIZE_INVALID;
+  if(frameSize==FRAMESIZE_INVALID)return false;
+  auto s=acquire();if(!s)return false;
+  int mode=reg(s,0x3503),gain=word(s,0x350a);bool manual=mode>=0&&(mode&3)==3;
+  double us=0;
+  if(manual){double row=exposure_math::rowUs(s->xclk_freq_hz,reg(s,0x303a),reg(s,0x303b),reg(s,0x303c),reg(s,0x303d),word(s,0x380c));
+    int a=reg(s,0x3500,15),b=reg(s,0x3501),c=reg(s,0x3502);
+    if(row<=0||a<0||b<0||c<0||gain<0){xSemaphoreGive(sensorLock);return false;}us=(((a<<16)|(b<<8)|c)/16.)*row;}
+  int rc=mode<0?-1:0;
+  if(!rc&&s->status.framesize!=frameSize)rc=s->set_framesize(s,frameSize);
+  if(!rc)rc=s->set_quality(s,quality);
+  if(!rc)rc=s->set_aec2(s,0);
+  if(!rc&&manual){double row=exposure_math::rowUs(s->xclk_freq_hz,reg(s,0x303a),reg(s,0x303b),reg(s,0x303c),reg(s,0x303d),word(s,0x380c));
+    int rows=exposure_math::rowsForUs(uint32_t(fmax(100.,fmin(20000.,us))),row,word(s,0x380e));
+    rc=rows<0?-1:s->set_exposure_ctrl(s,0)||s->set_gain_ctrl(s,0)||s->set_aec_value(s,rows)||s->set_reg(s,0x350a,3,gain>>8)||s->set_reg(s,0x350b,255,gain&255);}
+  if(!rc&&!manual)rc=s->set_exposure_ctrl(s,1)||s->set_gain_ctrl(s,1);
+  xSemaphoreGive(sensorLock);return rc==0;
+}
 void begin() {
   sensorLock=xSemaphoreCreateMutex();
   auto s=esp_camera_sensor_get();

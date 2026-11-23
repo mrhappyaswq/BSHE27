@@ -22,8 +22,7 @@ recommended XIAO ESP32-S3 Sense. These profiles use different pin maps.
 
 ## Setup in VS Code
 
-1. Download or check out this repository's `feature/xiao-s3-qr-landing` branch.
-   The files are in **firmware/camera_web**.
+1. Clone or download this repository. The viewer is in **firmware/camera_web**.
 2. Install **PlatformIO IDE** from VS Code's Extensions view, then open
    **firmware/camera_web** as the project folder. Wait for its first setup
    and dependency downloads to finish.
@@ -70,7 +69,7 @@ most about 10 FPS; actual frame rate is unmeasured and depends on Wi-Fi,
 sensor and power. No image or password is uploaded to an external service.
 Change `AP_NAME` / `AP_PASSWORD` at the top of `src/main.cpp` before building
 if desired; passwords require at least eight characters. The published
-default password is for bench use. Anyone connected to this local network
+default password is public and intended for bench use. Anyone connected to this local network
 can view the camera; the webpage has no separate login.
 
 ## Troubleshooting and limits
@@ -119,8 +118,18 @@ pio device monitor --port COM4 --baud 115200
 Replace COM4 with the actual camera-board port. Compilation checks software
 compatibility only; live hardware streaming has not been tested here.
 
-Validation: both `goouuu_s3_cam` and `xiao_sense` firmware builds passed.
-The GOOUUU bootloader header was checked for 16 MB flash. Browser checks with
-simulated responses passed automatic start, stream URL, Stop/Restart, snapshot
-link, mobile layout and camera-error handling. These checks do not verify a
-physical camera feed, image quality, Wi-Fi range or actual frame rate.
+## Source layout
+
+- `src/main.cpp`: camera setup, local Wi-Fi and HTTP handlers.
+- `include/viewer.h`: self-contained browser page, served from flash.
+- `platformio.ini`: pinned build dependencies and board profiles.
+
+Build both profiles before submitting changes:
+
+```powershell
+pio run -e goouuu_s3_cam -e xiao_sense
+```
+
+Browser checks can use simulated status and image responses to verify automatic
+start, Stop/Restart, snapshots and errors. They do not verify a physical camera
+feed, image quality, Wi-Fi range or actual frame rate.

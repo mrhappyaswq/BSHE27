@@ -8,6 +8,7 @@
 #include "camera_frame.h"
 #include "camera_controls.h"
 #include "telemetry.h"
+#include "aruco_service.h"
 Vehicle vehicle;
 Mission mission(vehicle);
 static char input[96]; static size_t inputSize=0; static bool overflow=false;
@@ -36,7 +37,7 @@ static void command(const String& cmd) {
   } else Serial.println("status | telemetry | photo | abort | run hover/hover_gps/move_gps/circle/aruco_landing/aruco_move_gps | marker cx cy width height");
 }
 void setup() {
-  Serial.begin(115200); Serial.println(settings::Board); vehicle.begin(); camera_service::begin(); camera_controls::begin(); wired_camera::begin();
+  Serial.begin(115200); Serial.println(settings::Board); vehicle.begin(); camera_service::begin(); camera_controls::begin(); aruco_service::begin(); wired_camera::begin();
   Serial.println("Passive boot. Wi-Fi BSHE27-Camera / password; http://192.168.4.1/");
   command("help");
 }

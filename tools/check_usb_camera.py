@@ -4,6 +4,7 @@ Example: python tools/check_usb_camera.py --port COM10 --seconds 45
 Requires pyserial; never sends flight commands or resets the board.
 """
 import argparse
+from collections import Counter
 import json
 import os
 from pathlib import Path
@@ -34,6 +35,7 @@ def main():
     port.dtr, port.rts, port.port = True, False, args.port
     count, last, total_bytes, aligned_jpegs = 0, 0, 0, 0
     times, board_fps, frame_ages = [], [], []
+    frame_formats = Counter()
     started = time.monotonic()
     try:
         port.open()
@@ -64,8 +66,10 @@ def main():
                 raise RuntimeError(f"Frame {count}: invalid JPEG boundaries")
             if frame_id == last:
                 raise RuntimeError(f"Frame {count}: duplicate capture ID {frame_id}")
-            if struct.unpack_from("<HH", header, 36) != (320, 240):
+            dimensions = struct.unpack_from("<HH", header, 36)
+            if dimensions not in ((320, 240), (640, 480), (1024, 768)):
                 raise RuntimeError("Unexpected camera dimensions")
+            frame_formats[f"{dimensions[0]}x{dimensions[1]}"] += 1
             if args.snapshot and not count:
                 snapshot_path = Path(args.snapshot)
                 snapshot_path.parent.mkdir(parents=True, exist_ok=True)
@@ -90,6 +94,7 @@ def main():
             "packet_aligned_jpegs": aligned_jpegs,
             "pause_every_frames": args.pause_every, "pause_ms": args.pause_ms,
             "partial_or_invalid_frames": 0,
+            "frame_dimensions": dict(frame_formats),
         }
         if args.report:
             report_path = Path(args.report)

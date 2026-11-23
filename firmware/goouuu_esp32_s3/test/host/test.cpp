@@ -5,6 +5,8 @@
 #include "vectors.h"
 #include "exposure_math.h"
 #include "telemetry.h"
+#include "marker_pose.h"
+#include "aruco_tests.h"
 uint32_t testNow=1000;
 HardwareSerial Serial(0);
 namespace camera_service { const char* error=nullptr; }
@@ -17,7 +19,38 @@ void fresh(Vehicle& v,bool armed=false,uint32_t mode=0) {
   v.baseMode=armed?128:0;v.mode=mode;v.state=3;v.fix=3;
   v.present=v.enabled=v.healthy=1UL<<28;
 }
-int main() {
+int main(int argc,char** argv) {
+  {
+    auto base=altitude_profile::select(false,2000),low=altitude_profile::select(true,199),mid=altitude_profile::select(true,200),high=altitude_profile::select(true,800);
+    assert(base.mode==0&&base.width==320&&base.quality==20&&base.targetFps==0);
+    assert(low.width==320&&low.height==240&&low.quality==28&&low.targetFps==20);
+    assert(mid.width==640&&mid.height==480&&mid.quality==20&&mid.targetFps==8);
+    assert(high.width==1024&&high.height==768&&high.quality==10&&high.targetFps==2);
+    assert(altitude_profile::select(true,799).mode==2&&altitude_profile::select(true,2000).mode==3);
+    auto packed=altitude_profile::pack(high);assert((packed>>28)==10&&(packed&63)==10&&((packed>>6)&31)==2&&((packed>>13)&2047)==800);
+    camera_service::Frame frame;frame.profile=high;uint8_t h[camera_service::HeaderSize];camera_service::frameHeader(h,&frame,1000);
+    assert(wire::get<uint16_t>(h,36)==1024&&wire::get<uint16_t>(h,38)==768&&wire::get<uint32_t>(h,28)==packed);
+  }
+  arucoTests();
+  if(argc==2)arucoPhotoTest(argv[1]);
+  {
+    using namespace marker_pose;
+    Calibration c;c.fx=240;c.fy=245;c.cx=160;c.cy=120;
+    const double side=.2,angle=.4;
+    for(bool distorted:{false,true}) {
+      c.k1=distorted?-.15:0;c.k2=distorted?.03:0;c.p1=distorted?.001:0;
+      Point points[4];const Point model[4]={{-.1,-.1},{.1,-.1},{.1,.1},{-.1,.1}};
+      for(int i=0;i<4;++i)points[i]=project(cos(angle)*model[i].x+.08,model[i].y-.04,-sin(angle)*model[i].x+.8,c);
+      Pose p=estimate(points,side,c);
+      assert(p.valid && fabs(p.translation[0]-.08)<1e-6 && fabs(p.translation[1]+.04)<1e-6);
+      assert(fabs(p.translation[2]-.8)<1e-6 && fabs(p.pitch-angle)<1e-6);
+      assert(fabs(p.distance-sqrt(.08*.08+.04*.04+.8*.8))<1e-6 && p.reprojectionPx<1e-5);
+      Pose doubled=estimate(points,side*2,c);assert(doubled.valid && fabs(doubled.distance-2*p.distance)<1e-6);
+      Point t=points[1];points[1]=points[3];points[3]=t;assert(!estimate(points,side,c).valid);
+    }
+    Point collapsed[4];assert(!estimate(collapsed,side,c).valid);
+    assert(!estimate(collapsed,0,c).valid);c.fx=0;assert(!estimate(collapsed,side,c).valid);
+  }
   {
     Vehicle v;char json[1536];
     telemetryJson(v,testNow,1,false,0,"Passive monitor",nullptr,27.8f,json,sizeof(json));
@@ -51,7 +84,7 @@ int main() {
     assert(!memcmp(header,"BSC1",4) && sizeof(header)==48);
     assert(wire::get<uint32_t>(header,4)==1234 && wire::get<uint32_t>(header,8)==5);
     assert(wire::get<uint32_t>(header,20)==1200 && wire::get<float>(header,32)==8.5f);
-    assert(wire::get<uint32_t>(header,28)==0); // Reserved slot; no vision processing.
+    assert(wire::get<uint32_t>(header,28)==altitude_profile::pack(f.profile));
     assert(wire::get<uint32_t>(header,40)==100 && wire::get<uint32_t>(header,44)==0);
     camera_service::frameHeader(header,nullptr,1000,1);
     assert(wire::get<uint32_t>(header,4)==0 && wire::get<uint32_t>(header,44)==1);

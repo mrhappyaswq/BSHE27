@@ -5,6 +5,7 @@
 #include <atomic>
 #include <lwip/sockets.h>
 #include "camera_frame.h"
+#include "camera_service.h"
 #include "dashboard_page.h"
 #include "camera_controls.h"
 #include "wire.h"
@@ -45,6 +46,12 @@ static esp_err_t telemetryResponse(httpd_req_t* r,bool withCamera) {
   return httpd_resp_send(r,json,HTTPD_RESP_USE_STRLEN);
 }
 static esp_err_t status(httpd_req_t* r) {return telemetryResponse(r,true);}
+static esp_err_t health(httpd_req_t* r) {
+  httpd_resp_set_type(r,"application/json");
+  httpd_resp_set_hdr(r,"Cache-Control","no-store");
+  httpd_resp_set_hdr(r,"Access-Control-Allow-Origin","*");
+  return httpd_resp_send(r,"{\"ok\":true}",HTTPD_RESP_USE_STRLEN);
+}
 static esp_err_t telemetry(httpd_req_t* r) {
   ++telemetryRequests;esp_err_t result=telemetryResponse(r,false);
   if(result==ESP_OK)++telemetryOk;else ++telemetryErrors;return result;
@@ -73,20 +80,30 @@ static esp_err_t configureSocket(httpd_handle_t,int socket) {
   int enabled=1;
   return setsockopt(socket,IPPROTO_TCP,TCP_NODELAY,&enabled,sizeof(enabled))==0 ? ESP_OK : ESP_FAIL;
 }
+static esp_err_t profile(httpd_req_t* r){
+  uint8_t body[3];int used=0;if(r->content_len!=3)return httpd_resp_send_err(r,HTTPD_400_BAD_REQUEST,"Expected three profile bytes");
+  while(used<3){int n=httpd_req_recv(r,reinterpret_cast<char*>(body)+used,3-used);if(n<=0)return ESP_FAIL;used+=n;}
+  if(body[0]>1)return httpd_resp_send_err(r,HTTPD_400_BAD_REQUEST,"Invalid simulation mode");
+  char json[320];camera_service::simulateAltitude(body[0]!=0,wire::get<uint16_t>(body,1),json,sizeof(json));
+  httpd_resp_set_type(r,"application/json");httpd_resp_set_hdr(r,"Cache-Control","no-store");return httpd_resp_send(r,json,HTTPD_RESP_USE_STRLEN);
+}
 void begin(esp_err_t (*capture)(httpd_req_t*),esp_err_t (*stream)(httpd_req_t*),esp_err_t (*frame)(httpd_req_t*)) {
   for(int i=0;i<2;++i) {
     httpd_config_t c=HTTPD_DEFAULT_CONFIG(); c.server_port=80+i;c.ctrl_port=32768+i;
     c.stack_size=12288; // Status JSON includes camera timing and float formatting.
+    c.max_uri_handlers=12;
     c.open_fn=configureSocket;
     c.send_wait_timeout=2;c.lru_purge_enable=true; httpd_handle_t server=nullptr;
     if(httpd_start(&server,&c)!=ESP_OK) { Serial.println("HTTP server failed"); continue; }
     if(!i) {
+      httpd_uri_t p={};p.uri="/camera-profile";p.method=HTTP_POST;p.handler=profile;
+      if(httpd_register_uri_handler(server,&p)!=ESP_OK)Serial.println("Camera profile route failed");
       for(auto method:{HTTP_GET,HTTP_POST}) {httpd_uri_t route={};route.uri="/camera-control";route.method=method;route.handler=controls;
         if(httpd_register_uri_handler(server,&route)!=ESP_OK) Serial.println("Camera control route failed");}
     }
-    const char* paths[]={"/","/status","/capture","/viewer","/telemetry","/stream","/frame","/capture"};
-    esp_err_t (*handlers[])(httpd_req_t*)={home,status,capture,home,telemetry,stream,frame,capture};
-    for(int j=i?5:0;j<(i?8:5);++j) {
+    const char* paths[]={"/","/status","/capture","/viewer","/telemetry","/health","/stream","/frame","/capture"};
+    esp_err_t (*handlers[])(httpd_req_t*)={home,status,capture,home,telemetry,health,stream,frame,capture};
+    for(int j=i?6:0;j<(i?9:6);++j) {
       httpd_uri_t route={};route.uri=paths[j];route.method=HTTP_GET;route.handler=handlers[j];
       if(httpd_register_uri_handler(server,&route)!=ESP_OK) Serial.println("HTTP route failed");
     }
